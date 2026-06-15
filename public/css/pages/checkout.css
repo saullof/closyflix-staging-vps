@@ -1,0 +1,270 @@
+.rounded {
+    border-radius: 1rem
+}
+
+.nav-pills .nav-link {
+    color: #555
+}
+
+.nav-pills .nav-link.active {
+    color: white
+}
+
+input[type="radio"] {
+    margin-right: 5px
+}
+
+.checkout-theme-light {
+    --checkout-surface: rgba(148, 163, 184, 0.03);
+    --checkout-surface-strong: rgba(148, 163, 184, 0.04);
+    --checkout-border: rgba(15, 23, 42, 0.08);
+    --checkout-border-soft: rgba(15, 23, 42, 0.06);
+}
+
+.checkout-theme-dark {
+    --checkout-surface: rgba(255, 255, 255, 0.03);
+    --checkout-surface-strong: rgba(255, 255, 255, 0.04);
+    --checkout-border: rgba(255, 255, 255, 0.12);
+    --checkout-border-soft: rgba(255, 255, 255, 0.08);
+}
+
+.checkout-top-section {
+    padding: 0.85rem;
+    margin-bottom: 0.9rem;
+    border: 1px solid var(--checkout-border-soft, rgba(15, 23, 42, 0.06));
+    border-radius: 0.35rem;
+    background: var(--checkout-surface-strong, rgba(148, 163, 184, 0.04));
+}
+
+.checkout-top-header {
+    gap: 0.25rem;
+}
+
+.checkout-top-avatar .user-avatar {
+    width: 52px;
+    height: 52px;
+    object-fit: cover;
+}
+
+.checkout-top-copy .name {
+    font-size: 1rem;
+    line-height: 1.2;
+}
+
+.checkout-top-copy .username {
+    font-size: 0.92rem;
+}
+
+.checkout-top-description {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.checkout-payment-box {
+    padding: 0.85rem;
+    border: 1px solid var(--checkout-border, rgba(15, 23, 42, 0.08));
+    border-radius: 0.35rem;
+    background: var(--checkout-surface, rgba(148, 163, 184, 0.03));
+}
+
+#accordion .card {
+    background: var(--checkout-surface, rgba(148, 163, 184, 0.03));
+}
+
+.checkout-payment-box-section + .checkout-payment-box-section {
+    margin-top: 0.85rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--checkout-border, rgba(15, 23, 42, 0.08));
+}
+
+.checkout-payment-box h6 {
+    font-size: 0.95rem;
+    margin-bottom: 0.35rem;
+}
+
+.checkout-payment-box .input-group {
+    margin-bottom: 0;
+}
+
+.radio {
+    display: inline-block;
+    border-radius: 6px;
+    box-sizing: border-box;
+    border: 2px solid lightgrey;
+    cursor: pointer;
+    margin: 6px 25px 6px 0px
+}
+
+.radio:hover {
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2)
+}
+
+.radio.selected {
+    box-shadow: 0px 0px 0px 1px #9b0979;
+    border: 2px solid #9b0979
+}
+
+.label-radio {
+    font-weight: bold;
+    color: #000000
+}
+
+.checkout-payment-provider {
+    background: #ffffff;
+    height: 59px;
+    text-align: center;
+}
+
+.paypal-payment-provider img,
+.ccbill-payment-provider img,
+.paystack-payment-provider img,
+.yookassa-payment-provider img,
+.mollie-payment-provider img,
+.flutterwave-payment-provider img,
+.coingate-payment-provider img,
+.xendit-payment-provider img,
+.paddle-payment-provider img,
+.cryptocom-payment-provider img,
+.oxxo-payment-provider img,
+.mercado-payment-provider img,
+.verotel-payment-provider img,
+.razorpay-payment-provider img
+{
+    width:90px
+}
+
+.nowpayments-payment-provider img{
+    width:83px;
+}
+
+.credit-provider-text {
+    color: #000000;
+    margin: auto;
+}
+
+#billing-agreement-form label.error {
+    color: #ea0606!important;
+}
+
+/* === Selectize: theme-aware overrides (light + dark) === */
+
+/* Base input */
+.selectize-control.single .selectize-input,
+.selectize-control.multi .selectize-input {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    border-color: var(--bs-border-color);
+}
+
+/* Text input */
+.selectize-control.single .selectize-input input,
+.selectize-control.multi .selectize-input input {
+    color: inherit;
+}
+
+/* Placeholder */
+.selectize-control.single .selectize-input input::placeholder {
+    color: var(--bs-secondary-color);
+}
+
+/* Dropdown */
+.selectize-dropdown,
+.selectize-dropdown.form-control {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    border-color: var(--bs-border-color);
+}
+
+/* Options */
+.selectize-dropdown .option {
+    color: inherit;
+}
+
+/* Hover / active option */
+.selectize-dropdown .option.active,
+.selectize-dropdown .option:hover {
+    background-color: var(--bs-secondary-bg);
+    color: var(--bs-body-color);
+}
+
+/* Selected value */
+.selectize-control.single .selectize-input .item {
+    color: inherit;
+}
+
+/* Caret */
+.selectize-control.single .selectize-input:after {
+    border-top-color: var(--bs-body-color);
+}
+
+/* Focus */
+.selectize-control.single .selectize-input.focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+/* Fix Selectize caret color (theme-aware) */
+.selectize-control.single .selectize-input:after {
+    border-top-color: var(--bs-body-color) !important;
+}
+
+/* When dropdown is open, Selectize flips the caret (uses border-bottom) */
+.selectize-control.single.dropdown-active .selectize-input:after {
+    border-bottom-color: var(--bs-body-color) !important;
+    border-top-color: transparent !important;
+}
+
+@media (max-width: 575.98px) {
+    .checkout-top-section {
+        padding: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .checkout-top-avatar .user-avatar {
+        width: 46px;
+        height: 46px;
+    }
+
+    .checkout-top-copy .name {
+        font-size: 0.95rem;
+    }
+
+    .checkout-top-copy .username,
+    .checkout-top-description {
+        font-size: 0.88rem;
+    }
+
+    .checkout-payment-box {
+        padding: 0.75rem;
+    }
+
+    .checkout-payment-box-section + .checkout-payment-box-section {
+        margin-top: 0.7rem;
+        padding-top: 0.7rem;
+    }
+}
+
+
+/* Theme-aware Selectize scrollbar */
+.selectize-dropdown-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.selectize-dropdown-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.selectize-dropdown-content::-webkit-scrollbar-thumb {
+    background-color: rgba(128, 128, 128, 0.35);
+    border-radius: 4px;
+}
+
+/* Dark theme refinement */
+body.dark-theme .selectize-dropdown-content::-webkit-scrollbar-thumb,
+html[data-theme="dark"] .selectize-dropdown-content::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+#accordion .card-header span{
+    font-size: 15px;
+}

@@ -1,0 +1,1707 @@
+// Footer
+:root {
+    @if $color-scheme-alt == dark {
+        --home-theme-primary-rgb: #{red($primary)}, #{green($primary)}, #{blue($primary)};
+    } @else {
+        --home-theme-primary-rgb: #{red($primary-alt)}, #{green($primary-alt)}, #{blue($primary-alt)};
+    }
+
+    --home-theme-primary-gradient: #{$primary-gradient};
+    --home-theme-primary-gradient-state: #{$primary-gradient-state};
+    --home-theme-primary-gradient-rgb: #{red($primary-gradient)}, #{green($primary-gradient)}, #{blue($primary-gradient)};
+    --home-theme-primary-gradient-state-rgb: #{red($primary-gradient-state)}, #{green($primary-gradient-state)}, #{blue($primary-gradient-state)};
+}
+
+// Footer
+footer{
+    @if $color-scheme-alt == dark {
+        background-color: $white-alt;
+    } @else {
+        background-color: lighten($body-bg-alt,10%);
+    }
+}
+
+// Custom spacing
+.ml-2-h{
+    margin-left:0.75rem;
+}
+
+.bg-primary-soft{
+    background-color: rgba($primary-alt,11%)!important;
+}
+
+.bg-primary-softer{
+    background-color: rgba($primary-alt,8%)!important;
+}
+
+.video-preview-placeholder.video-preview-placeholder--theme {
+    background:
+        radial-gradient(circle at 50% 34%, rgba($primary-gradient-state, 0.12), transparent 38%),
+        linear-gradient(145deg, $gray-100, $gray-200);
+
+    .video-preview-placeholder-icon {
+        @if $color-scheme-alt == dark {
+            color: $primary;
+        } @else {
+            color: $primary-alt;
+        }
+    }
+}
+
+.table-hover-primary-soft{
+    .table-hover-item{
+        transition: background-color .12s ease, color .12s ease;
+    }
+
+    .table-hover-item:hover{
+        background-color: rgba($primary, 0.08)!important;
+    }
+}
+
+body.dark_mode .table-hover-primary-soft{
+    .table-hover-item:hover{
+        background-color: rgba($primary, 0.12)!important;
+    }
+}
+
+// Custom pills
+.h-pill{
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    cursor:pointer;
+    padding: 0.4rem 0.4rem;
+    border-radius: 1rem;
+}
+
+.h-pill:hover{
+    background-color: $gray-400-alt;
+    color:$white-alt;
+}
+
+.h-pill-primary:hover{
+    background-color: rgba($primary-alt,11%)!important;
+    color:lighten($primary-alt,15%)!important;
+}
+
+.h-pill.rounded{
+    border-radius: 50%!important;
+}
+
+.h-pill.active{
+    //background-color: rgba($primary-alt,0.2);
+    background-color: rgba($primary-alt,11%)!important;
+    color:lighten($primary-alt,15%);
+}
+
+.h-pill.disabled{
+    color:lighten($font-color,20%);
+}
+
+.h-pill.disabled:active, .h-pill.disabled:hover{
+    background-color: transparent!important;
+    color:lighten($font-color,20%)!important;
+    cursor: default!important;
+}
+
+.password-reveal-field {
+    position: relative;
+
+    .password-reveal-input {
+        padding-right: 3.25rem;
+    }
+
+    .password-reveal-toggle {
+        align-items: center;
+        background: transparent;
+        border: 0;
+        color: $gray-600;
+        cursor: pointer;
+        display: flex;
+        height: 100%;
+        min-width: 3rem;
+        justify-content: center;
+        padding: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 4;
+
+        &:hover,
+        &:focus {
+            color: $primary-alt;
+            background: transparent;
+        }
+
+        &:focus {
+            box-shadow: none;
+            outline: none;
+        }
+    }
+}
+
+.home-bg-section{
+    @if $color-scheme-alt == dark {
+        background-color: $gray-100;
+    } @else {
+        background-color: darken($gray-800-alt,7%);
+    }
+}
+
+.h-pill-accent{
+    background-color: rgba($primary-alt,10%)!important;
+    color:lighten($primary-alt,15%)!important;
+}
+
+.h-pill-accent:hover{
+    background-color: rgba($primary-alt,25%)!important;
+}
+
+/* Pills over media (contrast) */
+.h-pill-media{
+    display:inline-flex;align-items:center;cursor:pointer;
+    padding:.4rem .55rem;border-radius:1rem;
+    background:rgba(0,0,0,.28);color:rgba(255,255,255,.92);
+    box-shadow:0 1px 6px rgba(0,0,0,.22);
+    text-shadow:0 1px 2px rgba(0,0,0,.30);
+
+    &:hover{background:rgba(0,0,0,.38);color:rgba(255,255,255,.98);}
+    &:focus{outline:0;box-shadow:0 0 0 2px rgba($primary-alt,.25),0 1px 6px rgba(0,0,0,.22);}
+    &.active{background:rgba($primary-alt,.28);color:rgba(255,255,255,.98);}
+
+    &.rounded{border-radius:999px!important;}
+}
+
+/* Reverse for very light media */
+.h-pill-media--light{
+    background:rgba(255,255,255,.78);color:rgba(0,0,0,.75);
+    box-shadow:0 1px 6px rgba(0,0,0,.12);text-shadow:none;
+
+    &:hover{background:rgba(255,255,255,.88);color:rgba(0,0,0,.85);}
+    &.active{background:rgba($primary-alt,.18);color:darken($primary-alt,10%);}
+}
+
+// Dropdowns
+.dropdown-divider {
+    @if $color-scheme-alt == dark {
+        border-top: 1px solid #e9ecef!important;
+    } @else {
+    }
+}
+
+// Layout
+
+.mobile-bottom-nav{
+    height: calc(70px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.mobile-bottom-nav .mobile-create-dropdown .dropdown-item{
+    @if $color-scheme-alt == dark {
+        color:$gray-500-alt!important;
+    } @else {
+        color:rgba($gray-200-alt,75%)!important;
+    }
+}
+
+.mobile-bottom-nav .mobile-create-toggle{
+    @if $color-scheme-alt == dark {
+        color:$primary-alt!important;
+    } @else {
+        color:lighten($primary-alt,20%)!important;
+    }
+}
+
+.mobile-bottom-nav .mobile-create-dropdown{
+    @if $color-scheme-alt == dark {
+        background: rgba($white-alt,0.96);
+        border-color: rgba($gray-900-alt,0.08);
+    } @else {
+        background: rgba($gray-900-alt,0.95);
+        border-color: rgba($white-alt,0.07);
+        box-shadow: 0 -1rem 2.5rem rgba(0, 0, 0, 0.36), 0 -.35rem 1rem rgba(0, 0, 0, 0.22);
+    }
+}
+
+.neutral-bg{
+    @if $color-scheme-alt == dark {
+        background-color:$gray-100!important;
+    } @else {
+        background-color:darken($gray-900-alt,1%)!important;
+    }
+}
+
+@include media-breakpoint-up(xs) {
+    body.has-mobile-bottom-nav{
+        /* In order to be able to display the full content, w/o being cut by the sticky navbar */
+        padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+    }
+    .side-menu .nav-link{
+        justify-content: center!important;
+    }
+    .side-menu .nav-item i{
+        font-size: 1.9rem!important;
+    }
+    .side-menu .user-details{
+        justify-content: center!important;
+    }
+    .settings-content{
+        border-left:none!important;
+    }
+    .post-box .h-pill{
+        border-radius: 50%;
+    }
+    //.post-media{
+    //    margin-left:-16px;
+    //    margin-right: -16px;
+    //}
+    .container-xl{
+        padding-left:14px;
+    }
+    .user-search-box-info{
+        max-width: 150px;
+    }
+    .fixed-top-m{
+        position: fixed;
+        right: 0;
+        left: 0;
+        z-index: 20;
+    }
+    .m-pt-70{
+        margin-top:70px;
+    }
+    .feed-mobile-search{
+        @if $color-scheme-alt == dark {
+            border-bottom:1px solid $border-color!important;
+        } @else {
+            border-bottom:1px solid $border-color-alt!important;
+        }
+    }
+    .content-wrapper.border-right{
+        border-right: none!important;
+    }
+
+    .overflow-x-hidden-m{
+        overflow-x: hidden;
+    }
+    .swiper-button-next{
+        right: 25px!important;
+    }
+    .swiper-button-prev{
+        left: 25px!important;
+    }
+}
+@include media-breakpoint-up(sm) {
+    body.has-mobile-bottom-nav{
+        /* In order to be able to display the full content, w/o being cut by the sticky navbar */
+        padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+    }
+    .side-menu .nav-link{
+        justify-content: center!important;
+    }
+    .side-menu .nav-item i{
+        font-size: 1.9rem!important;
+    }
+    .side-menu .user-details{
+        justify-content: center!important;
+    }
+    .p-pill {
+        width: 40px!important;
+        height: 40px!important;
+    }
+    .settings-content{
+        border-left:none!important;
+    }
+    .post-box .h-pill{
+        border-radius: 50%;
+    }
+    //.post-media{
+    //    margin-left:-16px;
+    //    margin-right: -16px;
+    //}
+    .container-xl{
+        padding-left:14px;
+    }
+    .user-search-box-info{
+        max-width: 150px;
+    }
+    .fixed-top-m{
+        position: fixed;
+        right: 0;
+        left: 0;
+        z-index: 20;
+    }
+    .m-pt-70{
+        margin-top:70px;
+    }
+    .feed-mobile-search{
+        @if $color-scheme-alt == dark {
+            border-bottom:1px solid $border-color!important;
+        } @else {
+            border-bottom:1px solid $border-color-alt!important;
+        }
+    }
+    .content-wrapper.border-right {
+        border-right: none!important;
+    }
+    .overflow-x-hidden-m{
+        overflow-x: hidden;
+    }
+    .swiper-button-next{
+        right: 25px!important;
+    }
+    .swiper-button-prev{
+        left: 25px!important;
+    }
+}
+@include media-breakpoint-up(md) {
+    body{
+        padding-bottom: 0px;
+    }
+    body.has-mobile-bottom-nav{
+        padding-bottom: 0px;
+    }
+    .side-menu .nav-link{
+        justify-content: space-between!important;
+    }
+    .side-menu .nav-item i{
+        font-size: 19px!important;
+        margin-right: .7rem;
+    }
+    .side-menu .user-details{
+        justify-content: flex-start!important;
+    }
+    .settings-content{
+        @if $color-scheme-alt == dark {
+            border-left:1px solid $border-color!important;
+        } @else {
+            border-left:1px solid $border-color-alt!important;
+        }
+    }
+    .post-box .h-pill{
+        border-radius: 50%;
+    }
+    .post-media{
+        margin-left:0px;
+        margin-right: 0px;
+    }
+    .user-search-box-info{
+        max-width: inherit;
+    }
+    .fixed-top-m{
+        position: inherit;
+    }
+    .m-pt-70{
+        margin-top:0px;
+    }
+    .feed-mobile-search{
+        border-bottom: none;
+    }
+    .content-wrapper.border-right {
+        @if $color-scheme-alt == dark {
+            border-right:1px solid $border-color!important;
+        } @else {
+            border-right:1px solid $border-color-alt!important;
+        }
+    }
+    .overflow-x-hidden-m{
+        overflow-x: inherit;
+    }
+    .swiper-button-next{
+        right: 10px!important;
+    }
+    .swiper-button-prev{
+        left: 10px!important;
+    }
+}
+@include media-breakpoint-up(lg) {
+    body{
+        padding-bottom: 0px;
+    }
+    .side-menu .nav-link{
+        justify-content: space-between!important;
+    }
+    .side-menu .nav-item i{
+        font-size: 19px!important;
+        margin-right: .7rem;
+    }
+    .side-menu .user-details{
+        justify-content: flex-start!important;
+    }
+    .settings-content{
+        border-bottom: none;
+    }
+    .post-box .h-pill{
+        border-radius: 1rem;
+    }
+    .post-media{
+        margin-left:0px;
+        margin-right: 0px;
+    }
+    .user-search-box-info{
+        max-width: inherit;
+    }
+    .fixed-top-m{
+        position: inherit;
+    }
+    .m-pt-70{
+        margin-top:0px;
+    }
+    .feed-mobile-search{
+        border-bottom: none;
+    }
+    .content-wrapper.border-right {
+        @if $color-scheme-alt == dark {
+            border-right:1px solid $border-color!important;
+        } @else {
+            border-right:1px solid $border-color-alt!important;
+        }
+    }
+    .overflow-x-hidden-m{
+        overflow-x: inherit;
+    }
+    .swiper-button-next{
+        right: 10px!important;
+    }
+    .swiper-button-prev{
+        left: 10px!important;
+    }
+}
+@include media-breakpoint-up(xl) {
+    body{
+        padding-bottom: 0px;
+    }
+    .side-menu .nav-link{
+        justify-content: space-between!important;
+    }
+    .side-menu .nav-item i{
+        font-size: 19px!important;
+        margin-right: .7rem;
+    }
+    .side-menu .user-details{
+        justify-content: flex-start!important;
+    }
+    .settings-content{
+        @if $color-scheme-alt == dark {
+            border-left:1px solid $border-color!important;
+        } @else {
+            border-left:1px solid $border-color-alt!important;
+        }
+    }
+    .post-box .h-pill{
+        border-radius: 1rem;
+    }
+    .post-media{
+        margin-left:0px;
+        margin-right: 0px;
+    }
+    .user-search-box-info{
+        max-width: inherit;
+    }
+    .fixed-top-m{
+        position: inherit;
+    }
+    .m-pt-70{
+        margin-top:0px;
+    }
+    .feed-mobile-search{
+        border-bottom: none;
+    }
+    .content-wrapper.border-right {
+        @if $color-scheme-alt == dark {
+            border-right:1px solid $border-color!important;
+        } @else {
+            border-right:1px solid $border-color-alt!important;
+        }
+    }
+    .overflow-x-hidden-m{
+        overflow-x: inherit;
+    }
+    .swiper-button-next{
+        right: 10px!important;
+    }
+    .swiper-button-prev{
+        left: 10px!important;
+    }
+}
+
+// Profile pills
+.p-pill {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color:lighten($primary-alt,15%)!important;
+    background-color: transparent;
+    font-size: 1.2rem;
+    line-height: 1.4;
+    transition: all .15s ease-in;
+    border:transparent!important;
+    box-shadow: inset 0 0 0 1px rgb(138 150 163 / 25%)!important;
+}
+
+.p-pill.disabled{
+    color:lighten($font-color,20%)!important;
+}
+
+.p-pill-text {
+    width:100%!important;
+    border-radius: 2rem!important;
+    font-weight: 500!important;
+    font-size: .9rem!important;
+    padding-right: 0.5em!important;
+    padding-left: 0.5em!important;
+}
+
+.p-pill:hover{
+    border:1px solid lighten($primary-alt,15%);
+    background-color: rgba($primary-alt,11%)!important;
+}
+
+.p-pill-white {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color:$gray-300!important;
+    background-color: rgba($gray-100,20%)!important;
+    font-size: 1.2rem;
+    line-height: 1.4;
+    transition: all .15s ease-in;
+    border:1px solid rgba($gray-100-alt,75%)!important;
+}
+
+.p-pill-white:hover{
+    color:$gray-100!important;
+    //border:1px solid lighten($gray-100,15%);
+    background-color: rgba($gray-100,30%)!important;
+}
+
+// Profile inline tabs
+.inline-border-tabs .nav-link {
+    padding-bottom: 1.2rem;
+    border-radius: 0px!important;
+    background-color: transparent!important;
+    @if $color-scheme-alt == dark {
+        color: $primary-alt!important;
+        border-bottom:1px solid $border-color!important;
+    } @else {
+        color: $white!important;
+        border-bottom:1px solid $border-color-alt!important;
+    }
+}
+
+.inline-border-tabs .nav-link:hover {
+    border-bottom: 2px solid $primary-alt!important;
+}
+
+.inline-border-tabs .nav-link.active{
+    border-bottom: 2px solid $primary-alt!important;
+}
+
+.bg-separator{
+    height:.8rem;
+    @if $color-scheme-alt == dark {
+        background-color: rgba($gray-100-alt,20%);
+    } @else {
+        background-color: rgba($gray-800-alt,60%);
+    }
+}
+
+
+/* User side menu */
+.user-side-menu{
+
+}
+
+.user-side-menu .nav-item{
+    margin-bottom: 8px;
+}
+.user-side-menu .nav-item a{
+    @if $color-scheme-alt == dark {
+        color:$gray-500-alt!important;
+    } @else {
+        color:rgba($gray-200-alt,75%)!important;
+    }
+}
+
+.user-side-menu .h-pill:hover{
+
+    @if $color-scheme-alt == dark {
+        background-color: rgba($primary-alt,0.15);
+        color:$primary-alt!important;
+    } @else {
+        background-color: rgba($primary-alt,0.03);
+        color:lighten($primary-alt,20%)!important;
+    }
+}
+
+.user-side-menu .h-pill.active{
+    @if $color-scheme-alt == dark {
+        background-color: rgba($primary-alt,0.2);
+        //color:lighten($primary-alt,20%)!important;
+        color:$primary-alt!important;
+
+    } @else {
+        background-color: rgba($primary-alt,0.10);
+        color:lighten($primary-alt,20%)!important;
+    }
+}
+
+.user-side-menu .nav-item .btn{
+    color:$white!important;
+}
+
+.user-side-menu .nav-item .btn:hover{
+    color:$white!important;
+}
+
+.user-side-menu .nav-item .side-menu-label{
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.user-side-menu .nav-item .new-post-label{
+    font-size: 14px;
+}
+
+.user-side-menu .nav-item{
+    padding:0px;
+}
+
+.user-side-menu .btn{
+    font-size: 15px;
+}
+
+.user-side-menu .btn i{
+    font-size: 19px;
+}
+
+// Keep the side-menu action button label centered while its icon stays left-aligned.
+.user-side-menu .side-menu-action-btn{
+    position: relative;
+}
+
+.user-side-menu .side-menu-action-content{
+    position: relative;
+    width: 100%;
+    min-height: 20px;
+}
+
+.user-side-menu .side-menu-action-icon{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.user-side-menu .side-menu-action-text{
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.user-side-menu .side-menu-live-dot{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+}
+
+.side-menu .user-side-menu .side-menu-create-dropdown .side-menu-create-option-icon,
+.mobile-bottom-nav .mobile-create-dropdown .side-menu-create-option-icon{
+    @if $color-scheme-alt == dark {
+        background-color: rgba($primary-alt,0.11);
+        color: $primary-alt!important;
+    } @else {
+        background-color: rgba($primary-alt,0.10);
+        color: lighten($primary-alt,20%)!important;
+    }
+}
+
+.side-menu .user-side-menu .side-menu-create-dropdown .dropdown-item:hover,
+.side-menu .user-side-menu .side-menu-create-dropdown .dropdown-item:focus,
+.side-menu .user-side-menu .side-menu-create-dropdown .dropdown-item:active,
+.mobile-bottom-nav .mobile-create-dropdown .dropdown-item:hover,
+.mobile-bottom-nav .mobile-create-dropdown .dropdown-item:focus,
+.mobile-bottom-nav .mobile-create-dropdown .dropdown-item:active{
+    @if $color-scheme-alt == dark {
+        background-color: rgba($primary-alt,0.15)!important;
+        color: $primary-alt!important;
+    } @else {
+        background-color: rgba($primary-alt,0.10)!important;
+        color: lighten($primary-alt,20%)!important;
+    }
+}
+
+.side-menu .user-side-menu .side-menu-create-dropdown .dropdown-item:hover .side-menu-create-option-icon,
+.side-menu .user-side-menu .side-menu-create-dropdown .dropdown-item:focus .side-menu-create-option-icon,
+.side-menu .user-side-menu .side-menu-create-dropdown .dropdown-item:active .side-menu-create-option-icon,
+.mobile-bottom-nav .mobile-create-dropdown .dropdown-item:hover .side-menu-create-option-icon,
+.mobile-bottom-nav .mobile-create-dropdown .dropdown-item:focus .side-menu-create-option-icon,
+.mobile-bottom-nav .mobile-create-dropdown .dropdown-item:active .side-menu-create-option-icon{
+    @if $color-scheme-alt == dark {
+        background-color: $primary-alt!important;
+    } @else {
+        background-color: lighten($primary-alt,20%)!important;
+    }
+    color: $white!important;
+}
+
+// Generic llayout dropdown meny styles
+
+.sticky-nav .navbar-user-menu{
+    @if $color-scheme-alt == dark {
+        background: rgba($white-alt,0.96);
+        border: 1px solid rgba($gray-900-alt,0.08);
+        box-shadow: 0 1.2rem 2.8rem rgba(20, 19, 43, 0.14), 0 0.4rem 1rem rgba(20, 19, 43, 0.08);
+    } @else {
+        background: rgba($gray-900-alt,0.95);
+        border: 1px solid rgba($white-alt,0.07);
+        box-shadow: 0 1.2rem 2.8rem rgba(0, 0, 0, 0.38), 0 0.4rem 1rem rgba(0, 0, 0, 0.24);
+    }
+}
+
+.sticky-nav .navbar-user-menu .dropdown-item{
+    @if $color-scheme-alt == dark {
+        color:$gray-500-alt!important;
+    } @else {
+        color:rgba($gray-200-alt,75%)!important;
+    }
+}
+
+.sticky-nav .navbar-user-menu .dropdown-item:hover,
+.sticky-nav .navbar-user-menu .dropdown-item:focus{
+    @if $color-scheme-alt == dark {
+        background-color: rgba($primary-alt,0.15);
+        color:$primary-alt!important;
+    } @else {
+        background-color: rgba($primary-alt,0.03);
+        color:lighten($primary-alt,20%)!important;
+    }
+}
+
+.sticky-nav .navbar-user-menu .dropdown-item.active,
+.sticky-nav .navbar-user-menu .dropdown-item:active{
+    @if $color-scheme-alt == dark {
+        background-color: rgba($primary-alt,0.2);
+        color:$primary-alt!important;
+    } @else {
+        background-color: rgba($primary-alt,0.10);
+        color:lighten($primary-alt,20%)!important;
+    }
+}
+
+.sticky-nav .navbar-user-menu .dropdown-divider{
+    @if $color-scheme-alt == dark {
+        border-top-color: rgba(20, 19, 43, 0.08);
+    } @else {
+        border-top-color: rgba($white-alt,0.10);
+    }
+}
+
+.sticky-nav .navbar-user-menu .dropdown-item:last-of-type:hover,
+.sticky-nav .navbar-user-menu .dropdown-item:last-of-type:focus,
+.sticky-nav .navbar-user-menu .dropdown-item:last-of-type:active{
+    @if $color-scheme-alt == dark {
+        background-color: rgba($danger,0.14);
+        color:lighten($danger,20%)!important;
+    } @else {
+        background-color: rgba($orange,0.16);
+        color:lighten($orange,20%)!important;
+    }
+}
+
+// Text dark/white classes not to be replaced by the Theme middleware
+.text-dark-r {
+    color:$gray-800-alt!important;
+}
+
+.text-light-r {
+    color:$gray-500-alt!important;
+}
+
+
+/* Profile & Settings used containers*/
+.profile-cover-bg{
+    background-color: #FAFAFA;
+    height:200px;
+}
+
+.profile-cover-bg img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 0!important;
+}
+
+.card-img{
+    border-radius: 0px!important;
+}
+/* File uploads / avatar shared (profile + edit profile) */
+.avatar-holder{
+    margin-top: -60px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+.avatar-holder img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+
+    /* slimmer than 4px */
+    @if $color-scheme-alt == dark {
+        border: 2px solid $white;
+        background-color: rgba($gray-100-alt, 20%);
+    } @else {
+        border: 2px solid $dark;
+        background-color: rgba($gray-800-alt, 60%);
+    }
+}
+
+/* The small green dot in the bottom-right corner */
+.online-indicator {
+    position: absolute;
+    margin-left:-20px;
+    bottom: 5px;
+    right: 20px;
+    width: 18px; /* Adjust as you like */
+    height: 18px;
+    background-color: #28a745; /* green */
+    @if $color-scheme-alt == dark {
+        border:2px solid $white;
+    } @else {
+        border:2px solid $dark;
+    }
+    border-radius: 50%;
+}
+
+
+.table-wrapper{
+    //background-color: rgba($gray-100-alt,20%);
+}
+.table {
+    width: 100%;
+    border:none;
+}
+.table thead th {
+    padding: 20px 30px;
+    font-size: 14px;
+    border:none;
+    @if $color-scheme-alt == dark {
+        border-bottom:1px solid $hr-border-color!important;
+        color: $dark!important;
+
+    } @else {
+        border-bottom:1px solid $hr-border-color-alt!important;
+        color: $white!important;
+    }
+}
+.table tbody tr {
+    margin-bottom: 10px;
+}
+.table tbody th, .table tbody td {
+    padding: 20px 30px;
+    border:none;
+    @if $color-scheme-alt == dark {
+        border-bottom:1px solid $hr-border-color!important;
+
+    } @else {
+        border-bottom:1px solid $hr-border-color-alt!important;
+
+    }
+    font-size: 14px;
+}
+
+// Custom behaviour for muted links
+a.text-muted:hover,  a.text-light:hover,  a.text-hover:hover{
+    color:$link-hover-color-alt!important;
+    text-decoration: underline;
+}
+
+a.text-dark:hover,  a.text-light:hover,  a.text-white:hover,  a.text-black:hover{
+    text-decoration: underline;
+}
+
+
+/*Posts media handler*/
+.posts-wrapper .swiper-button{
+    width: 40px;
+    height: 40px;
+}
+
+.posts-wrapper .swiper-button:after{
+    content:none!important;
+}
+
+.posts-wrapper .locked-media{
+    object-fit: cover; /* Do not scale the image */
+    width: 100%;
+    max-height: 550px; // This gets feed.post_box_max_height value if present!
+    height: 550px;
+
+    background-size: cover; /* Use 'contain' if you prefer */
+    background-position: center;
+    background-repeat: no-repeat;
+
+}
+
+/* Default: dark glass (image/blur previews) */
+.ppv-info-bg {
+    color: $white;
+    background: rgba(0, 0, 0, .45);
+}
+
+.non-blur-locked-actions .ppv-info-bg{
+    @if $color-scheme-alt == dark {
+        color: $primary;
+        background-color: rgba(255, 255, 255, 0.3); /* Adjust color and opacity as needed */
+    } @else {
+        color: $white;
+        background: transparent;
+    }
+}
+
+.bg-contain{
+    background-size: contain!important;
+}
+
+.svg-locked-post{
+    height: 280px!important;
+}
+
+.posts-wrapper .post-media-image{
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    /*background-position: center center;*/
+    background-position: center center;
+}
+
+@media (max-width: 767px) {
+    .posts-wrapper .mySwiper {
+        height: 320px!important;
+    }
+    .posts-wrapper .mySwiper>img {
+        height: 320px!important;
+    }
+}
+@media (min-width: 768px) {
+    .posts-wrapper .mySwiper {
+        height: 480px!important;
+    }
+    .posts-wrapper .mySwiper>img {
+        height: 480px!important;
+    }
+}
+@media (min-width: 992px) {
+    .posts-wrapper .mySwiper {
+        height: 550px!important;
+    }
+    .posts-wrapper .mySwiper>img {
+        height: 550px!important;
+    }
+}
+
+.settings-menu .list-group-item-action.active,
+.bookmarks-nav .list-group-item-action.active {
+    @if $color-scheme-alt == dark {
+        color: $list-group-action-active-color!important;
+        background-color: $list-group-action-active-bg!important;
+        border: transparent!important;
+    } @else {
+        color: $list-group-action-active-color-alt!important;
+        background-color: $list-group-action-active-bg-alt!important;
+        border: transparent!important;
+    }
+}
+
+.lists-wrapper .list-link{
+    color: inherit!important;
+}
+
+.lists-wrapper .list-link:hover{
+    @if $color-scheme-alt == dark {
+        background-color: $list-group-action-active-bg!important;
+    }
+    @else{
+        background-color: $list-group-action-active-bg-alt!important;
+    }
+}
+
+.lists-wrapper .list-link h5, .lists-wrapper .list-link span{
+    font-size: 1.03rem;
+}
+
+.contact-box:hover, .contact-active{
+    @if $color-scheme-alt == dark {
+        background-color: $list-group-action-active-bg!important;
+    } @else {
+        background-color: $list-group-action-active-bg-alt!important;
+    }
+}
+
+.alert-default{
+    @if $color-scheme-alt == dark {
+        background-color: $list-group-action-active-bg!important;
+        color: $h-color!important;
+    } @else {
+        background-color: $list-group-action-active-bg-alt!important;
+        color: #fafafa !important;
+
+    }
+}
+
+
+/* Custom sized checkboxes */
+@mixin switch($res: 'sm') {
+    $index: 1rem;
+    $mainVal: 1rem;
+
+    @if $res == 'md' {
+        $index: 2rem;
+        $mainVal: 1.5rem;
+    } @else if $res == 'lg' {
+        $index: 3rem;
+        $mainVal: 2rem;
+    } @else if $res == 'xl' {
+        $index: 4rem;
+        $mainVal: 2.5rem;
+    }
+
+    .custom-control-label {
+        padding-left: #{$index};
+        padding-bottom: #{$mainVal};
+    }
+
+    .custom-control-label::before {
+        height: $mainVal;
+        width: calc(#{$index} + 0.75rem);
+        border-radius: $mainVal * 2;
+    }
+
+    .custom-control-label::after {
+        width: calc(#{$mainVal} - 4px);
+        height: calc(#{$mainVal} - 4px);
+        border-radius: calc(#{$index} - (#{$mainVal} / 2));
+    }
+
+    .custom-control-input:checked ~ .custom-control-label::after {
+        transform: translateX(calc(#{$mainVal} - 0.25rem));
+    }
+}
+
+.public-page-content p{
+    @if $color-scheme-alt == dark {
+        color: $dark!important;
+
+    } @else {
+        color: $white!important;
+    }
+}
+
+.selectize-input{
+    @if $color-scheme-alt == dark {
+        background-color: $white!important;
+        border: 1px solid $input-border-color!important;
+
+    } @else {
+        background-color: #3B3B3B!important;
+        border: 1px solid $input-border-color-alt!important;
+    }
+}
+
+
+/**
+* Search element SCSS
+ */
+.search-box-wrapper{
+    //border: $gray-400 ;
+}
+
+.search-box-wrapper .input-group {
+    display: inline-flex;
+    @if $color-scheme-alt == dark {
+        border: 1px solid $gray-300;
+
+    } @else {
+        border: 1px solid $gray-700;
+    }
+    border-radius: 0.4rem;
+    input {
+        padding: 1rem;
+        border: 0;
+        font: inherit;
+        // Since we are providing an alternative focus
+        // style, it is safe to remove the focus styling
+        // from the input itself
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.search-box-wrapper input{
+    border-radius: 0.4rem;
+}
+
+.search-box-wrapper .input-group-text{
+    border:0;
+    background: inherit!important;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.search-box-wrapper .input-group {
+    &:focus-within {
+        border-color: lighten($primary-alt,25)!important;
+    }
+}
+
+// RESPONSIVE STUFF
+// YOU CAN PUT ALL RESOLUTION HERE
+// sm - DEFAULT, md, lg, xl
+.custom-switch.custom-switch-sm {
+    @include switch();
+}
+
+.custom-switch.custom-switch-md {
+    @include switch('md');
+}
+
+.custom-switch.custom-switch-lg {
+    @include switch('lg');
+}
+
+.custom-switch.custom-switch-xl {
+    @include switch('xl');
+}
+
+
+.menu-notification-badge{
+    position: absolute;
+    background: $primary;
+    color: #FFF;
+    min-width: 16px;
+    height: 16px;
+    line-height: 20px;
+    border-radius: 1000px;
+    padding: 0 5px;
+    top: -1px;
+    right: 2px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.mobile-bottom-nav .menu-notification-badge{
+    right: -1px;
+}
+
+.notification-box .avatar {
+    @if $color-scheme-alt == dark {
+        outline: 3px solid $border-color!important;
+    } @else {
+        outline: 3px solid $border-color-alt!important;
+    }
+}
+
+.notification-box.unread .avatar {
+    outline: 3px solid $primary!important;
+}
+
+.strike {
+    display: block;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.strike > span {
+    position: relative;
+    display: inline-block;
+}
+
+.strike > span:before,
+.strike > span:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 9999px;
+    height: 1px;
+    @if $color-scheme-alt == dark {
+        background: $hr-border-color!important;
+    } @else {
+        background: $hr-border-color-alt!important;
+    }
+}
+
+.strike > span:before {
+    right: 100%;
+    margin-right: 15px;
+}
+
+.strike > span:after {
+    left: 100%;
+    margin-left: 15px;
+}
+
+/* Messenger */
+
+.messageBoxInput{
+    line-height: 1.7rem;
+}
+
+.message-action-button{
+    width:26px;
+    height:26px;
+}
+
+.message-action-button:hover{
+    @if $color-scheme-alt == dark {
+        background-color: $gray-200;
+    } @else {
+        background-color: $gray-600;
+    }
+    border-radius: 50%;
+}
+
+
+.description-content blockquote{
+    font-style: italic;
+    @if $color-scheme-alt == dark {
+        border-left: 3px solid $border-color!important;
+    } @else {
+        border-left: 3px solid $border-color-alt!important;
+    }
+    padding-left: 1rem;
+}
+
+//Selectize
+.selectize-dropdown .active {
+    @if $color-scheme-alt != dark {
+        background-color: $gray-600-alt!important;
+        color:$white!important;
+    }
+}
+
+.selectize-dropdown {
+    @if $color-scheme-alt != dark {
+        background-color: darken($gray-700-alt,7%)!important;
+        color:$white!important;
+    }
+}
+
+
+.selectize-input{
+    @if $color-scheme-alt == dark {
+        background-color: $white!important;
+    } @else {
+        background-color: #3B3B3B!important;
+    }
+}
+
+.selectize-input.focus {
+    border-color: lighten($primary,25)!important;
+    outline: 0!important;
+    outline-color: initial!important;
+    outline-style: initial!important;
+    outline-width: 0px!important;
+    box-shadow: 0 0 0 $input-focus-width rgba($primary, .25)!important;
+}
+
+.selectize-control.multi .selectize-input>div.active {
+    background: lighten($primary,25)!important;
+}
+
+.conversation-writeup .input-group-append {
+    @if $isRTL == false {
+        margin-left: -45px!important;
+    }
+    @else {
+        margin-right: -45px!important;
+    }
+}
+
+.new-post-comment-area .input-group-append{
+    @if $isRTL == false {
+        margin-left: -60px!important;
+    }
+    @else {
+        margin-right: -60px!important;
+    }
+}
+
+.text-link{
+    @if $color-scheme-alt == dark {
+        color: $link-color;
+    } @else {
+        color: $link-color-alt;
+    }
+    background-color: transparent; // Remove the gray background on active links in IE 10.
+
+    @include hover() {
+        @if $color-scheme-alt == dark {
+            color: $link-hover-color;
+        } @else {
+            color: $link-hover-color-alt;
+        }
+    }
+}
+
+.global-announcement-banner a{
+    color:$white!important;
+    text-decoration: none!important;
+}
+
+.global-announcement-banner a:hover{
+    color:darken($white,10)!important;
+}
+
+.bg-secondary-neutral{
+    @if $color-scheme-alt == dark {
+        background-color: $list-group-action-active-bg!important;
+    }
+    @else{
+        background-color: $list-group-action-active-bg-alt!important;
+    }
+}
+
+input[type="date"], input[type="datetime-local"] {
+    @if $color-scheme-alt == dark {
+        color-scheme: light;
+    } @else {
+        color-scheme: dark;
+    }
+}
+
+// MDE editor
+
+
+.EasyMDEContainer {
+    @if $color-scheme-alt == dark {
+        //background-color: #3B3B3B!important;
+        background-color: $input-bg!important;
+    } @else {
+        //background-color: #3B3B3B!important;
+        background-color: $input-bg-alt!important;
+    }
+}
+
+.CodeMirror, .editor-preview {
+    @if $color-scheme-alt == dark {
+        //background-color: #3B3B3B!important;
+        background-color: $input-bg!important;
+        color: $input-color!important;
+        border-color: $input-border-color !important;
+    } @else {
+        //background-color: #3B3B3B!important;
+        background-color: $input-bg-alt!important;
+        color: $input-color-alt!important;
+        border-color: $input-border-color-alt !important;
+    }
+}
+
+.cm-s-easymde .CodeMirror-cursor {
+    @if $color-scheme-alt == dark {
+        border-color: $input-border-color !important;
+    } @else {
+        border-color: $input-border-color-alt !important;
+    }
+}
+
+.editor-toolbar{
+    @if $color-scheme-alt == dark {
+        border-color: $input-border-color !important;
+    } @else {
+        border-color: $input-border-color-alt !important;
+    }
+}
+
+.editor-toolbar button i {
+    @if $color-scheme-alt == dark {
+        color: $dark !important;
+    } @else {
+        color: $white-alt !important;
+    }
+}
+
+.editor-toolbar button.active, .editor-toolbar button:hover {
+    @if $color-scheme-alt == dark {
+    } @else {
+        background-color: transparent !important; // Fixes toolbar buttons from appearing as white when hovered or selected
+    }
+}
+
+.editor-preview pre {
+    @if $color-scheme-alt == dark {
+    } @else {
+        background-color: #333 !important; // This fixes code blocks in Markdown appearing with a white background
+    }
+}
+
+// EOF MDe editor
+
+
+// menus transitions
+
+.user-side-menu .nav-link {
+    transition: 0.15s;
+}
+
+.card-settings a, .sidebar a, .lists-wrapper a, .lists-wrapper .list-link{
+    transition: 0.15s;
+}
+
+.contact-box{
+    transition: 0.15s;
+}
+
+// EOF menu transitions
+
+.story-upload-zone .dz-message,
+.story-upload-zone .dz-message * {
+    @if $color-scheme-alt == dark {
+        color: $text-muted !important;
+    } @else {
+        color: $text-muted-alt !important;
+    }
+}
+
+// Post create hashes hihglightlint
+
+
+/**
+ * (hashtags, mentions) Highlight spans
+ */
+.hl-highlights .hl-tag,
+.hl-highlights .hl-mention {
+    color: inherit;
+    padding: 0; /* IMPORTANT: prevents the visual bleed */
+    border-radius: 4px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+
+.hl-highlights .hl-tag {
+    background-color: rgba($primary-alt,11%)!important;
+    box-shadow: 1px 1px 1px 1px rgba($primary-alt,11%);
+}
+
+.hl-highlights .hl-mention {
+    background-color: rgba($primary-alt,11%)!important;
+    box-shadow: 1px 1px 1px 1px rgba($primary-alt,11%);
+}
+
+
+/* Create page @mention suggestions */
+.mention-suggest-menu {
+    max-height: 280px;
+    overflow-y: auto;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.22);
+    border: 1px solid rgba(0,0,0,.08);
+    padding: 6px 0;
+}
+
+/* keep dropdown-item but make it feel tighter */
+.mention-suggest-item.dropdown-item {
+    padding: 10px 12px;
+}
+
+.mention-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.mention-username {
+    font-weight: 600;
+    line-height: 1.15;
+}
+
+.mention-name {
+    line-height: 1.15;
+}
+
+// this one is the suggestions bg color
+.mention-suggest-item.active,
+.mention-suggest-item:active,
+.mention-suggest-item:focus {
+    background-color: rgba($primary-alt,11%)!important;
+    outline: none;
+}
+
+//
+// Minimal BS5-like border-radius utilities for BS4
+//
+
+// Border radius tokens
+$radius: (
+    default: 0.25rem,
+    sm:      0.125rem,
+    lg:      0.375rem, // This one not used so far, can be increased
+    xl:      1.25rem,
+    xxl:     2rem
+) !default;
+
+// Helpers
+@mixin radius-all($v) { border-radius: $v !important; }
+
+@mixin radius-top($v) {
+    border-top-left-radius: $v !important;
+    border-top-right-radius: $v !important;
+}
+
+@mixin radius-right($v) {
+    border-top-right-radius: $v !important;
+    border-bottom-right-radius: $v !important;
+}
+
+@mixin radius-bottom($v) {
+    border-bottom-left-radius: $v !important;
+    border-bottom-right-radius: $v !important;
+}
+
+@mixin radius-left($v) {
+    border-top-left-radius: $v !important;
+    border-bottom-left-radius: $v !important;
+}
+
+// Utilities
+@each $name, $val in $radius {
+    $suffix: if($name == default, "", "-#{$name}");
+
+    // Full
+    .rounded#{$suffix}        { @include radius-all($val); }
+
+    // Sides
+    .rounded-top#{$suffix}    { @include radius-top($val); }
+    .rounded-right#{$suffix}  { @include radius-right($val); }
+    .rounded-bottom#{$suffix} { @include radius-bottom($val); }
+    .rounded-left#{$suffix}   { @include radius-left($val); }
+}
+
+
+/*
+* Suggestions swiper only (bullets under cards)
+*/
+
+.suggestions-box {
+
+    .swiper-pagination{
+        position: relative;
+        margin-top: .5rem;
+        text-align: center;
+        z-index: 5;
+    }
+
+    .swiper-pagination-bullet{
+        width: 6px;
+        height: 6px;
+        margin: 0 3px !important;
+        opacity: 1 !important;
+        box-shadow: none;
+        transform: none !important; // also neutralizes dynamicBullets scaling
+    }
+
+    /* IMPORTANT: your $color-scheme-alt mapping is inverted */
+    @if $color-scheme-alt == dark {
+        /* Use DARK bullets */
+        .swiper-pagination-bullet{
+            background: rgba(0,0,0,.22) !important;
+        }
+        .swiper-pagination-bullet-active{
+            background: rgba(0,0,0,.55) !important;
+        }
+    } @else {
+        /* Use WHITE bullets */
+        .swiper-pagination-bullet{
+            background: rgba(255,255,255,.45) !important;
+        }
+        .swiper-pagination-bullet-active{
+            background: rgba(255,255,255,.95) !important;
+        }
+    }
+
+    /* OPTIONAL arrows (if you have them in suggestions swiper) */
+    .swiper-button-prev,
+    .swiper-button-next{
+        width: 26px;
+        height: 26px;
+        border-radius: 999px;
+        top: auto;
+        transform: none;
+        background-image: none !important;
+        box-shadow: none !important;
+        opacity: 1 !important;
+
+        @if $color-scheme-alt == dark {
+            background: rgba(0,0,0,.08) !important;
+        } @else {
+            background: rgba(255,255,255,.12) !important;
+        }
+    }
+
+    .swiper-button-prev:after,
+    .swiper-button-next:after{
+        font-size: 12px;
+        font-weight: 800;
+        text-shadow: none !important;
+
+        @if $color-scheme-alt == dark {
+            color: rgba(0,0,0,.70) !important;
+        } @else {
+            color: rgba(255,255,255,.85) !important;
+        }
+    }
+}
+
+// -------------------------------------
+// Smart text selection styling
+// - Lightens Bootstrap primary
+// - Auto adjusts text color for contrast
+// -------------------------------------
+
+// Calculate lighter primary color (15% lighter than primary-alt)
+$selection-bg: lighten($primary-alt, 20%);
+
+// Automatically choose text color based on background contrast
+$selection-text: if(lightness($selection-bg) > 65%,
+    #212529, // Dark text for light backgrounds
+    #ffffff); // Light text for dark backgrounds
+
+// Apply to text selection
+::selection {
+    background-color: $selection-bg;
+    color: $selection-text;
+}
+
+::moz-selection {
+    background-color: $selection-bg;
+    color: $selection-text;
+}

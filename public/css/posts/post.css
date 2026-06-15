@@ -1,0 +1,155 @@
+.dropzone-previews.dropzone{
+    min-height: 0px!important;
+    border: none!important;
+}
+
+.dropzone .dz-preview.dz-image-preview {
+    background: transparent!important;
+}
+
+.dropzone .dz-preview:hover .dz-image img {
+     -webkit-filter: blur(2px)!important;
+    filter: blur(2px)!important;
+}
+
+.dropzone .dz-preview .dz-filename{
+    display: none!important;
+}
+
+.dropzone .dz-preview {
+    min-height: unset;
+}
+
+/* Post comments */
+.post-comments-wrapper .rounded-circle, .new-post-comment-area .rounded-circle{
+    height:50px;
+    width:50px
+}
+
+.post-comment .separator{
+    right: 1rem;
+}
+
+.comment-textarea{
+    height:45px!important;
+    min-height:45px!important;
+    border-radius: 20px!important;
+    padding-top: 10px!important;
+    overflow: hidden!important;
+}
+
+.hl-textarea-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.hl-backdrop {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none; /* don't block typing or dropzone */
+    border-radius: .25rem; /* match bootstrap input */
+}
+
+.hl-highlights {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: transparent;              /* only show highlight backgrounds */
+    padding: .375rem .75rem;         /* bootstrap textarea padding */
+    min-height: calc(1.5em * 3 + .75rem); /* approximate rows=3 */
+}
+
+/* Make the textarea background transparent so backdrop shows */
+.hl-textarea {
+    position: relative;
+    background-color: transparent !important;
+}
+
+.comment-content p{
+    margin-bottom: 0!important;
+}
+
+/* Swiper nav buttons CSS overrides; Default ones have contrast issues */
+
+/* IG desktop-ish: dark faint circle + semi-transparent white arrow */
+.post-media-swiper{
+    position: relative;
+}
+
+.post-media-swiper .swiper-button-prev,
+.post-media-swiper .swiper-button-next{
+    width: 26px;
+    height: 26px;
+    border-radius: 999px;
+
+    /* faint dark bg (not white), high transparency */
+    background: rgba(0,0,0,.22) !important;
+
+    border: 0 !important;
+    box-shadow: none !important;
+
+    opacity: 1 !important;
+
+    top: 50%;
+    transform: translateY(-50%);
+
+    background-image: none !important;
+}
+
+/* arrow glyph: white + high transparency */
+.post-media-swiper .swiper-button-prev:after,
+.post-media-swiper .swiper-button-next:after{
+    font-size: 13px !important;
+    font-weight: 900;
+
+    color: rgba(255,255,255,.82) !important; /* “transparent arrow” */
+    text-shadow: none !important;
+    opacity: 1 !important;
+}
+
+/* placement */
+.post-media-swiper .swiper-button-prev{ left: 10px !important; }
+.post-media-swiper .swiper-button-next{ right: 10px !important; }
+
+/* disabled */
+.post-media-swiper .swiper-button-disabled{
+    opacity: .25 !important;
+    pointer-events: none;
+}
+
+/* hover: slightly stronger (optional, IG-ish) */
+.post-media-swiper .swiper-button-prev:hover,
+.post-media-swiper .swiper-button-next:hover{
+    background: rgba(0,0,0,.30) !important;
+}
+.post-media-swiper .swiper-button-prev:hover:after,
+.post-media-swiper .swiper-button-next:hover:after{
+    color: rgba(255,255,255,.92) !important;
+}
+
+/* White / slightly transparent Swiper pagination bullets */
+ .swiper-pagination{
+    bottom: 10px !important;
+    z-index: 5;
+}
+
+ .swiper-pagination-bullet{
+    width: 6px;
+    height: 6px;
+    margin: 0 3px !important;
+
+    opacity: 1 !important; /* stop Swiper lowering it */
+    background: rgba(255,255,255,.55) !important; /* white translucent */
+
+    box-shadow: 0 1px 6px rgba(0,0,0,.18);
+}
+
+ .swiper-pagination-bullet-active{
+    background: rgba(255,255,255,.95) !important; /* active = more solid */
+}
+
+/* If dynamicBullets is on, prevent scale weirdness + keep same look */
+ .swiper-pagination-bullets-dynamic .swiper-pagination-bullet{
+    transform: none !important;
+}
+

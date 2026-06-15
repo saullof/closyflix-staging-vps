@@ -1,0 +1,674 @@
+.table-wrapper{}
+
+.settings-data-page,
+.settings-payments-page{
+    padding:.55rem .9rem 0;
+}
+
+.settings-data-overview,
+.settings-data-stat-card,
+.settings-payments-overview,
+.settings-payments-stat-card{
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:14px;
+    background:rgba(255,255,255,.92);
+}
+
+.settings-data-overview,
+.settings-payments-overview{
+    padding:.9rem .95rem .95rem;
+}
+
+.settings-data-summary,
+.settings-payments-summary{
+    margin-left:-.45rem;
+    margin-right:-.45rem;
+}
+
+.settings-data-stat-card,
+.settings-payments-stat-card{
+    padding:.65rem .8rem;
+}
+
+.settings-data-summary > [class*='col-'],
+.settings-payments-summary > [class*='col-']{
+    padding-left:.45rem;
+    padding-right:.45rem;
+}
+
+.settings-data-stat-card,
+.settings-payments-stat-card{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:.65rem;
+    min-height:100%;
+}
+
+.settings-data-stat-label,
+.settings-payments-stat-label{
+    font-size:.72rem;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    color:#8a96a3;
+    margin-bottom:.25rem;
+}
+
+.settings-data-stat-value,
+.settings-payments-stat-value{
+    font-size:1.05rem;
+    font-weight:700;
+    line-height:1.2;
+}
+
+.settings-data-stat-icon{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:28px;
+    height:28px;
+    border-radius:999px;
+    background:rgba(0,0,0,.035);
+    color:#8a96a3;
+    flex:0 0 auto;
+}
+
+.settings-data-results,
+.settings-payments-results{
+    font-size:1rem;
+    font-weight:700;
+    color:#475467;
+}
+
+.settings-data-overview-copy,
+.settings-payments-overview-copy{
+    max-width:560px;
+}
+
+.settings-payments-filter-toggle{
+    width:34px;
+    height:34px;
+    padding:0;
+    cursor:pointer;
+    position:relative;
+}
+
+.settings-payments-filter-toggle-active{
+    box-shadow:0 0 0 3px rgba(255, 0, 153, .08);
+}
+
+.settings-payments-filter-count{
+    position:absolute;
+    top:-5px;
+    right:-5px;
+    min-width:18px;
+    height:18px;
+    padding:0 4px;
+    border-radius:999px;
+    background:#ff0e99;
+    color:#fff;
+    font-size:.67rem;
+    font-weight:700;
+    line-height:18px;
+    text-align:center;
+    border:2px solid rgba(255,255,255,.95);
+}
+
+.settings-payments-filters-panel{
+    margin-top:.75rem!important;
+    padding-top:.8rem;
+    border-top:1px solid rgba(0,0,0,.08);
+}
+
+.settings-data-meta,
+.settings-payments-meta{
+    line-height:1.2;
+    margin-top:.2rem;
+}
+
+.settings-data-cell-main,
+.settings-data-amount,
+.settings-payments-cell-main,
+.settings-payments-amount{
+    color:#344054;
+}
+
+.settings-data-amount, .settings-payments-amount{
+    font-weight:600!important;
+}
+
+.settings-data-party-link,
+.settings-payments-party-link{
+    color:#344054;
+    /*font-weight:500;*/
+}
+
+.settings-subscriptions-avatar-link{
+    display:inline-flex;
+    vertical-align:middle;
+}
+
+.settings-data-overview .form-row,
+.settings-payments-overview .form-row{
+    margin-left:-.4rem;
+    margin-right:-.4rem;
+}
+
+.settings-data-overview .form-row > [class*='col-'],
+.settings-payments-overview .form-row > [class*='col-']{
+    padding-left:.4rem;
+    padding-right:.4rem;
+}
+
+.settings-data-table,
+.settings-payments-table{
+    margin-left:-.9rem;
+    margin-right:-.9rem;
+}
+
+.settings-data-table-head,
+.settings-payments-table-head{
+    background:rgba(255,255,255,.96);
+}
+
+.settings-data-header-row,
+.settings-payments-header-row{
+    padding-top:.8rem;
+    padding-bottom:.8rem;
+    font-size:.92rem;
+}
+
+.settings-data-table-body .settings-data-row,
+.settings-payments-table-body .settings-payments-row{
+    padding-top:.78rem;
+    padding-bottom:.78rem;
+    transition:background-color .12s ease;
+}
+
+.settings-data-table-body .settings-data-row:nth-child(even),
+.settings-payments-table-body .settings-payments-row:nth-child(even){
+    background:rgba(2, 6, 23, .015);
+}
+
+.settings-data-pagination,
+.settings-payments-pagination{
+    overflow:visible;
+}
+
+.settings-data-pagination .pagination-compact-wrapper,
+.settings-payments-pagination .pagination-compact-wrapper{
+    overflow:visible;
+}
+
+.settings-data-page .pagination.pagination-compact .page-link:focus,
+.settings-payments-page .pagination.pagination-compact .page-link:focus{
+    box-shadow:none;
+}
+
+.settings-data-status-badge,
+.settings-payments-status-badge{
+    font-size:.7rem;
+    line-height:1;
+    padding:.36rem .48rem;
+    border-radius:.32rem;
+    font-weight:700;
+}
+
+.settings-data-action-btn,
+.settings-payments-action-btn{
+    opacity:.58;
+    transition:opacity .12s ease, background-color .12s ease, border-color .12s ease;
+}
+
+.settings-data-row:hover .settings-data-action-btn,
+.settings-data-action-btn:focus,
+.settings-data-action-btn[aria-expanded="true"],
+.settings-payments-row:hover .settings-payments-action-btn,
+.settings-payments-action-btn:focus,
+.settings-payments-action-btn[aria-expanded="true"]{
+    opacity:1;
+}
+
+.settings-data-page.theme-dark .settings-data-overview,
+.settings-data-page.theme-dark .settings-data-stat-card,
+.settings-data-page.theme-dark .settings-data-table-head,
+.settings-payments-page.theme-dark .settings-payments-overview,
+.settings-payments-page.theme-dark .settings-payments-stat-card,
+.settings-payments-page.theme-dark .settings-payments-table-head{
+    background:transparent;
+    border-color:rgba(255,255,255,.08);
+}
+
+.settings-data-page.theme-dark .settings-data-overview,
+.settings-payments-page.theme-dark .settings-payments-overview{
+    border:none;
+    border-radius:0;
+    padding-left:0;
+    padding-right:0;
+}
+
+.settings-data-page.theme-dark .settings-data-stat-card,
+.settings-payments-page.theme-dark .settings-payments-stat-card{
+    border-color:rgba(255,255,255,.06);
+}
+
+.settings-data-page.theme-dark .settings-data-stat-label,
+.settings-payments-page.theme-dark .settings-payments-stat-label{
+    color:#a1a1aa;
+}
+
+.settings-data-page.theme-dark .settings-data-stat-icon,
+.settings-payments-page.theme-dark .settings-data-stat-icon{
+    background:rgba(255,255,255,.04);
+    color:#a1a1aa;
+}
+
+.settings-data-page.theme-dark .settings-data-results,
+.settings-data-page.theme-dark .settings-data-cell-main,
+.settings-data-page.theme-dark .settings-data-amount,
+.settings-data-page.theme-dark .settings-data-party-link,
+.settings-payments-page.theme-dark .settings-payments-results,
+.settings-payments-page.theme-dark .settings-payments-cell-main,
+.settings-payments-page.theme-dark .settings-payments-amount,
+.settings-payments-page.theme-dark .settings-payments-party-link{
+    color:#eef2f6;
+}
+
+.settings-data-page.theme-dark .settings-data-overview-copy .text-muted,
+.settings-data-page.theme-dark .settings-data-meta,
+.settings-data-page.theme-dark .settings-data-table-head,
+.settings-data-page.theme-dark .settings-data-table-head .text-bold,
+.settings-payments-page.theme-dark .settings-payments-overview-copy .text-muted,
+.settings-payments-page.theme-dark .settings-payments-meta,
+.settings-payments-page.theme-dark .settings-payments-table-head,
+.settings-payments-page.theme-dark .settings-payments-table-head .text-bold{
+    color:#a1a1aa !important;
+}
+
+.settings-payments-page.theme-dark .settings-payments-filters-panel{
+    border-top-color:rgba(255,255,255,.08);
+}
+
+.settings-payments-page.theme-dark .settings-payments-filter-count{
+    border-color:rgba(37,38,44,.96);
+}
+
+.settings-data-page.theme-dark .settings-data-table-body .settings-data-row:nth-child(even),
+.settings-payments-page.theme-dark .settings-payments-table-body .settings-payments-row:nth-child(even){
+    background:rgba(255,255,255,.02);
+}
+
+.settings-data-page.theme-dark .settings-data-table-head .col,
+.settings-payments-page.theme-dark .settings-payments-table-head .col{
+    background:transparent;
+}
+
+.settings-data-empty-state,
+.settings-payments-empty-state{
+    margin:.5rem 0 1rem;
+    padding:2.25rem 1.5rem;
+    border:1px dashed rgba(0,0,0,.12);
+    border-radius:16px;
+    background:rgba(255,255,255,.72);
+}
+
+.settings-data-empty-title,
+.settings-payments-empty-title{
+    font-size:1.05rem;
+    font-weight:700;
+    color:#344054;
+}
+
+.settings-data-empty-copy,
+.settings-payments-empty-copy{
+    max-width:440px;
+    margin:.5rem auto 0;
+    line-height:1.45;
+}
+
+.settings-data-page.theme-dark .settings-data-empty-state,
+.settings-payments-page.theme-dark .settings-payments-empty-state{
+    background:transparent;
+    border-color:rgba(255,255,255,.1);
+}
+
+.settings-data-page.theme-dark .settings-data-empty-title,
+.settings-payments-page.theme-dark .settings-payments-empty-title{
+    color:#eef2f6;
+}
+
+.settings-subscriptions-empty-state{
+    padding:2rem 1.5rem;
+}
+
+.settings-subscriptions-empty-icon{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    color:var(--primary, currentColor);
+    background:rgba(var(--home-theme-primary-rgb, 203, 12, 159), .08);
+}
+
+.settings-data-page.theme-dark .settings-subscriptions-empty-icon{
+    background:rgba(255,255,255,.06);
+}
+
+.settings-subscriptions-empty-hint{
+    max-width:480px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+@media (max-width: 767px) {
+    .settings-data-page,
+    .settings-payments-page{
+        padding:.45rem .75rem 0;
+    }
+
+    .settings-data-table,
+    .settings-payments-table{
+        margin-left:-.75rem;
+        margin-right:-.75rem;
+    }
+
+    .settings-data-pagination,
+    .settings-payments-pagination{
+        overflow:visible;
+    }
+
+    .settings-data-overview,
+    .settings-payments-overview{
+        padding:.85rem;
+    }
+
+    .settings-data-stat-card,
+    .settings-payments-stat-card{
+        padding:.7rem .8rem;
+        border-radius:12px;
+    }
+}
+
+.profileAvatar-settings {
+    width: 4rem;
+    height: 4rem;
+}
+
+.nav{
+    flex-wrap:nowrap;
+}
+
+.verify-form .dropzone{
+    min-height: auto!important;
+}
+
+.verify-form .dropzone .dz-preview.dz-image-preview {
+    background: transparent!important;
+}
+
+.verify-form .dropzone .dz-preview:hover .dz-image img {
+    -webkit-filter: blur(2px)!important;
+    filter: blur(2px)!important;
+}
+
+.verify-form .dropzone .dz-preview .dz-filename{
+    display: none!important;
+}
+
+.verify-form .dropzone .dz-preview {
+    min-height: unset;
+}
+
+.release-form-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+.release-form-summary {
+    min-width: 0;
+}
+
+.release-form-title {
+    font-weight: 600;
+    line-height: 1.35;
+    margin-bottom: .35rem;
+}
+
+.release-form-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem;
+    color: #6c757d;
+    font-size: .85rem;
+}
+
+.release-form-notes {
+    margin: .7rem 0 0;
+    color: #6c757d;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.release-form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: .55rem;
+    min-width: 11rem;
+}
+
+.release-form-files {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: .45rem;
+}
+
+.release-form-file-btn {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.release-form-delete-form {
+    flex-shrink: 0;
+}
+
+.release-form-delete-btn {
+    min-width: 4.4rem;
+}
+
+@media (max-width: 575px) {
+    .release-form-item {
+        grid-template-columns: 1fr;
+        gap: .85rem;
+    }
+
+    .release-form-actions,
+    .release-form-files {
+        justify-content: flex-start;
+        min-width: 0;
+    }
+}
+
+.manual-payment-uploader {
+    min-height: 100px!important;
+}
+
+.profile-cover-bg .h-pill, .avatar-holder .h-pill
+{
+    width: 30px;
+    height: 30px;
+}
+
+@media (max-width: 767px) {
+    .settings-content {
+        border:none!important;
+    }
+}
+
+.dz-filename{
+    display: none;
+}
+
+.fa-details-label{
+    margin-left: -36px;
+}
+
+
+.table-wrapper .rounded-circle.user-avatar{
+    width: 36px;
+    height: 36px;
+}
+
+.CodeMirror, .CodeMirror-scroll {
+    min-height: 100px;
+}
+
+
+/* Social links remove button (subtle) */
+.social-remove-btn{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(0,0,0,.12);
+    background: rgba(0,0,0,.02);
+    color: rgba(0,0,0,.55);
+
+    padding: 0;
+    cursor: pointer;
+    transition: background-color .08s ease, border-color .08s ease, color .08s ease, transform .08s ease;
+}
+
+.social-remove-btn ion-icon{
+    font-size: 15px;
+}
+
+.social-remove-btn:hover{
+    background: rgba(220, 53, 69, .08);
+    border-color: rgba(220, 53, 69, .35);
+    color: #dc3545;
+    transform: translateY(-1px);
+}
+
+.social-remove-btn:disabled{
+    opacity: .35;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+/* Avatar & Cover uploading state */
+/* =========================
+   Shared loader base
+   ========================= */
+.profile-asset-loading {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    pointer-events: none;
+    background: rgba(0,0,0,0.35); /* default (cover) */
+}
+
+/* =========================
+   Loading state behavior
+   ========================= */
+.profile-cover-bg.loading .card-img-top,
+.avatar-holder.loading .card-img-top {
+    filter: blur(6px) brightness(0.95);
+    transition: filter 0.25s ease;
+}
+
+/* Disable interactions while loading */
+.profile-cover-bg.loading,
+.avatar-holder.loading {
+    pointer-events: none;
+}
+
+/* =========================
+   Shimmer animation
+   ========================= */
+.profile-asset-loading .shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        110deg,
+        rgba(255,255,255,0.15) 25%,
+        rgba(255,255,255,0.45) 37%,
+        rgba(255,255,255,0.15) 63%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.2s linear infinite;
+}
+
+@keyframes shimmer {
+    to { background-position: -200% 0; }
+}
+
+/* =========================
+   Cover container
+   ========================= */
+.profile-cover-bg {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* =========================
+   Avatar container
+   ========================= */
+.avatar-holder {
+    position: relative;
+    z-index: 5;           /* above cover */
+    overflow: visible;   /* keep ring working */
+}
+
+/* Avatar image */
+.avatar-holder .card-img-top {
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background: #fff;
+}
+
+/* Remove Bootstrap card artifacts */
+.avatar-holder.card {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+}
+
+/* Avatar-specific loader tweaks */
+.avatar-holder .profile-asset-loading {
+    border-radius: 50%;
+    overflow: hidden;
+    background: rgba(0,0,0,0.18); /* lighter than cover */
+}
+
+/* Spotify settings block */
+.spotify-card-avatar {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+
+.spotify-artist-tile {
+    width: 85px;
+    height: 85px;
+    object-fit: cover;
+}
+
+.spotify-artist-wrapper{
+    width: 85px;
+}
