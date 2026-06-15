@@ -435,3 +435,368 @@
 .profile-spotify-pagination{
     position: static;
 }
+
+/* Profile feed filters */
+.profile-feed-navigation{
+    border-top: 1px solid rgba(128,128,128,.28);
+    border-bottom: 1px solid rgba(128,128,128,.28);
+    background: rgba(128,128,128,.025);
+}
+
+.profile-media-tabs{
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-bottom: 1px solid rgba(128,128,128,.24);
+}
+
+.profile-media-tabs::-webkit-scrollbar,
+.profile-access-tabs::-webkit-scrollbar{
+    display: none;
+}
+
+.profile-media-tab{
+    min-width: 105px;
+    min-height: 56px;
+    flex: 1 0 auto;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 14px 18px 13px;
+    color: inherit;
+    font-size: .9rem;
+    text-decoration: none;
+    transition: color .16s ease, background-color .16s ease;
+}
+
+.profile-media-tab strong{
+    font-weight: 600;
+}
+
+.profile-media-tab::after{
+    content: "";
+    position: absolute;
+    right: 12px;
+    bottom: -1px;
+    left: 12px;
+    height: 2px;
+    border-radius: 999px 999px 0 0;
+    background: var(--primary);
+    opacity: 0;
+    transform: scaleX(.55);
+    transition: opacity .16s ease, transform .16s ease;
+}
+
+.profile-media-tab:hover,
+.profile-media-tab.active{
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.profile-media-tab:hover{
+    background: rgba(128,128,128,.055);
+}
+
+.profile-media-tab.active::after{
+    opacity: 1;
+    transform: scaleX(1);
+}
+
+.profile-feed-toolbar{
+    min-height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 11px 14px;
+}
+
+.profile-access-tabs{
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 3px;
+    border: 1px solid rgba(128,128,128,.34);
+    border-radius: 999px;
+    background: rgba(128,128,128,.08);
+}
+
+.profile-access-tab{
+    min-height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    padding: 7px 15px;
+    border-radius: 999px;
+    color: inherit;
+    font-size: .78rem;
+    font-weight: 500;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: color .16s ease, background-color .16s ease, box-shadow .16s ease;
+}
+
+.profile-access-tab:hover{
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.profile-access-tab.active{
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary), #c91324);
+    box-shadow: 0 5px 14px rgba(220,32,50,.26);
+}
+
+.profile-view-tabs{
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.profile-view-tab{
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(128,128,128,.34);
+    border-radius: 50%;
+    color: inherit;
+    background: rgba(128,128,128,.08);
+    text-decoration: none;
+    transition: color .16s ease, border-color .16s ease, background-color .16s ease, transform .16s ease;
+}
+
+.profile-view-tab ion-icon{
+    font-size: 18px;
+}
+
+.profile-view-tab:hover,
+.profile-view-tab.active{
+    color: #fff;
+    border-color: var(--primary);
+    background: var(--primary);
+    text-decoration: none;
+}
+
+.profile-view-tab:hover{
+    transform: translateY(-1px);
+}
+
+/* Profile grid view */
+.profile-grid-card{
+    display: none;
+}
+
+.profile-feed-view-grid{
+    margin-top: 12px !important;
+}
+
+.profile-feed-view-grid .reverse-paginate-btn{
+    margin-right: 12px;
+    margin-left: 12px;
+}
+
+.profile-feed-view-grid .posts-wrapper{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding: 0 4px 4px;
+}
+
+.profile-feed-view-grid .posts-wrapper > hr,
+.profile-feed-view-grid .posts-wrapper > .modal,
+.profile-feed-view-grid .posts-wrapper > .pswp{
+    display: none !important;
+}
+
+.profile-feed-view-grid .post-box{
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 1 / 1;
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    border: 0;
+    border-radius: 5px;
+    background: #171717;
+    box-shadow: none;
+}
+
+.profile-feed-view-grid .post-box > :not(.profile-grid-card){
+    display: none !important;
+}
+
+.profile-feed-view-grid .profile-grid-card{
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    text-decoration: none;
+}
+
+.profile-grid-media{
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: transform .22s ease;
+}
+
+.profile-grid-media.has-fallback{
+    background:
+        radial-gradient(circle at 78% 16%, rgba(233,55,69,.23), transparent 34%),
+        linear-gradient(145deg, #272727, #111);
+}
+
+.profile-grid-card:hover .profile-grid-media{
+    transform: scale(1.025);
+}
+
+.profile-grid-shade{
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(to bottom, rgba(0,0,0,.38), transparent 34%),
+        linear-gradient(to top, rgba(0,0,0,.55), transparent 42%);
+    pointer-events: none;
+}
+
+.profile-grid-fallback-icon{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,.72);
+}
+
+.profile-grid-fallback-icon ion-icon{
+    font-size: 38px;
+}
+
+.profile-grid-badges{
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: flex;
+    gap: 5px;
+}
+
+.profile-grid-badge{
+    min-height: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 999px;
+    color: #fff;
+    background: rgba(18,18,18,.72);
+    box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    backdrop-filter: blur(5px);
+    font-size: .68rem;
+    font-weight: 600;
+}
+
+.profile-grid-badge ion-icon{
+    font-size: 13px;
+}
+
+.profile-grid-media-info{
+    position: absolute;
+    right: 8px;
+    bottom: 7px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 600;
+    text-shadow: 0 1px 5px rgba(0,0,0,.75);
+}
+
+.profile-grid-media-info > span{
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.profile-grid-media-info ion-icon{
+    font-size: 15px;
+}
+
+.profile-feed-view-grid .profile-feed-empty{
+    grid-column: 1 / -1;
+    padding: 30px 0;
+}
+
+@media (max-width: 575.98px){
+    .profile-media-tab{
+        min-width: 88px;
+        min-height: 52px;
+        padding-right: 11px;
+        padding-left: 11px;
+        font-size: .82rem;
+    }
+
+    .profile-feed-toolbar{
+        gap: 9px;
+        padding: 10px 8px;
+    }
+
+    .profile-access-tab{
+        min-height: 32px;
+        padding: 6px 12px;
+        font-size: .72rem;
+    }
+
+    .profile-view-tabs{
+        gap: 5px;
+    }
+
+    .profile-view-tab{
+        width: 34px;
+        height: 34px;
+    }
+
+    .profile-feed-view-grid .posts-wrapper{
+        gap: 2px;
+        padding: 0 2px 2px;
+    }
+
+    .profile-feed-view-grid .post-box{
+        border-radius: 2px;
+    }
+
+    .profile-grid-badges{
+        top: 5px;
+        left: 5px;
+    }
+
+    .profile-grid-badge{
+        min-height: 21px;
+        padding: 3px 6px;
+        font-size: .6rem;
+    }
+
+    .profile-grid-media-info{
+        right: 6px;
+        bottom: 5px;
+        gap: 6px;
+        font-size: .64rem;
+    }
+}

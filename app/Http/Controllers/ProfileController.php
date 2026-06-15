@@ -73,8 +73,14 @@ class ProfileController extends Controller
         }
 
         $postsFilter = $request->get('filter') ? $request->get('filter') : false;
+        $postsFilter = in_array($postsFilter, ['image', 'video', 'reels', 'streams'], true) ? $postsFilter : false;
+        $accessFilter = in_array($request->get('access'), ['free', 'subscription', 'pack'], true)
+            ? $request->get('access')
+            : 'all';
+        $profileFeedView = $request->get('view') === 'grid' ? 'grid' : 'list';
+        $postMediaFilter = in_array($postsFilter, ['image', 'video'], true) ? $postsFilter : false;
         $startPage = PostsHelperServiceProvider::getFeedStartPage(PostsHelperServiceProvider::getPrevPage($request));
-        $posts = PostsHelperServiceProvider::getUserPosts($this->user->id, false, $startPage, $postsFilter, $this->hasSub);
+        $posts = PostsHelperServiceProvider::getUserPosts($this->user->id, false, $startPage, $postMediaFilter, $this->hasSub, $accessFilter);
         PostsHelperServiceProvider::shouldDeletePaginationCookie($request);
         $posts = $posts->appends($_GET);
         $offer = [];
@@ -104,7 +110,10 @@ class ProfileController extends Controller
             'hasSub' => $this->hasSub,
             'posts' => $posts,
             'activeFilter' => $postsFilter,
+            'accessFilter' => $accessFilter,
+            'profileFeedView' => $profileFeedView,
             'filterTypeCounts' => PostsHelperServiceProvider::getUserMediaTypesCount($this->user->id),
+            'profileFeedCounts' => PostsHelperServiceProvider::getUserProfileFeedCounts($this->user->id, $accessFilter),
             'offer'=> $offer,
             'viewerHasChatAccess'=> $this->viewerHasChatAccess,
         ]);
@@ -147,9 +156,15 @@ class ProfileController extends Controller
 
         $data['additionalAssets'] = $additionalAssets;
 
+        $profilePostsRoute = route('profile.posts', ['username' => $this->user->username]);
+        $profileRoute = route('profile', ['username' => $this->user->username]);
+        $toProfilePostsRoute = static function ($url) use ($profilePostsRoute, $profileRoute) {
+            return $url ? str_replace($profileRoute, $profilePostsRoute, $url) : null;
+        };
+
         $paginatorConfig = [
-            'next_page_url' => str_replace(['?page=', '?filter='], ['/posts?page=', '/posts?filter='], $posts->nextPageUrl()),
-            'prev_page_url' => str_replace(['?page=', '?filter='], ['/posts?page=', '/posts?filter='], $posts->previousPageUrl()),
+            'next_page_url' => $toProfilePostsRoute($posts->nextPageUrl()),
+            'prev_page_url' => $toProfilePostsRoute($posts->previousPageUrl()),
             'current_page' => $posts->currentPage(),
             'total' => $posts->total(),
             'per_page' => $posts->perPage(),
@@ -171,7 +186,7 @@ class ProfileController extends Controller
         $rawDescription = getSetting('profiles.allow_profile_bio_markdown') && $this->user->bio ? strip_tags(GenericHelperServiceProvider::parseProfileMarkdownBio($this->user->bio)) : $this->user->bio;
         $data['seo_description'] = $rawDescription ? str_replace(["\n", "\r"], ' ', substr($rawDescription, 0, 90)).(strlen($rawDescription) > 90 ? '...' : '') : null;
 
-        Session::put('lastProfileUrl', route('profile', ['username'=> $this->user->username]));
+        Session::put('lastProfileUrl', $request->fullUrl());
 
         JavaScript::put([
             'paginatorConfig' => $paginatorConfig,
@@ -253,10 +268,14 @@ class ProfileController extends Controller
     {
         $this->setAccessRules();
         $postsFilter = $request->get('filter') ? $request->get('filter') : false;
+        $postsFilter = in_array($postsFilter, ['image', 'video'], true) ? $postsFilter : false;
+        $accessFilter = in_array($request->get('access'), ['free', 'subscription', 'pack'], true)
+            ? $request->get('access')
+            : 'all';
 
         return response()->json([
             'success' => true,
-            'data' => PostsHelperServiceProvider::getUserPosts($this->user->id, true, false, $postsFilter, $this->hasSub),
+            'data' => PostsHelperServiceProvider::getUserPosts($this->user->id, true, false, $postsFilter, $this->hasSub, $accessFilter),
         ]);
     }
 

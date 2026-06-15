@@ -1,4 +1,8 @@
 <div class="post-box" data-postID="{{$post->id}}">
+    @if(in_array(Route::currentRouteName(), ['profile', 'profile.posts'], true))
+        @include('elements.profile.profile-grid-post-card')
+    @endif
+
     {{--    Post header --}}
     <div class="post-header pl-3 pr-3 ">
         <div class="d-flex">
@@ -42,7 +46,11 @@
                             @endif
                         @endif
                         @if((Auth::check() && $post->price > 0) || (!Auth::check() && $post->price > 0))
-                            <div class="pr-3 pr-md-3"><span class="badge badge-pill bg-gradient-faded-primary">{{ucfirst(__("PPV"))}}</span></div>
+                            <div class="pr-3 pr-md-3">
+                                <span class="badge badge-pill bg-gradient-faded-primary">
+                                    {{in_array(Route::currentRouteName(), ['profile', 'profile.posts'], true) ? 'Pack' : ucfirst(__("PPV"))}}
+                                </span>
+                            </div>
                         @elseif($post->is_free)
                             <div class="pr-3 pr-md-3"><span class="badge badge-pill bg-gradient-faded-primary">{{ucfirst(__("Free"))}}</span></div>
                         @endif

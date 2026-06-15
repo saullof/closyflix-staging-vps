@@ -109,14 +109,32 @@
         @endif
     </div>
 
+    @php
+        $profileDetailsFilterUrl = static function ($media) use ($user, $accessFilter, $profileFeedView) {
+            $query = [];
+            if (in_array($media, ['image', 'video'], true)) {
+                $query['filter'] = $media;
+            }
+            if (in_array($accessFilter, ['free', 'subscription', 'pack'], true)) {
+                $query['access'] = $accessFilter;
+            }
+            if ($profileFeedView === 'grid') {
+                $query['view'] = 'grid';
+            }
+
+            return route('profile', ['username' => $user->username])
+                . ($query ? '?'.http_build_query($query) : '');
+        };
+    @endphp
+
     <div class="profile-stats-inline text-muted">
-        <a class="{{$activeFilter == false ? 'active' : ''}}" href="{{route('profile',['username'=> $user->username])}}">
-            <strong>{{short_number($posts->total())}}</strong> posts
+        <a class="{{$activeFilter == false ? 'active' : ''}}" href="{{$profileDetailsFilterUrl(null)}}">
+            <strong>{{short_number($filterTypeCounts['posts'] ?? $posts->total())}}</strong> posts
         </a>
-        <a class="{{$activeFilter == 'image' ? 'active' : ''}}" href="{{route('profile',['username'=> $user->username]) . '?filter=image'}}">
+        <a class="{{$activeFilter == 'image' ? 'active' : ''}}" href="{{$profileDetailsFilterUrl('image')}}">
             <strong>{{short_number($filterTypeCounts['image'] ?? 0)}}</strong> fotos
         </a>
-        <a class="{{$activeFilter == 'video' ? 'active' : ''}}" href="{{route('profile',['username'=> $user->username]) . '?filter=video'}}">
+        <a class="{{$activeFilter == 'video' ? 'active' : ''}}" href="{{$profileDetailsFilterUrl('video')}}">
             <strong>{{short_number($filterTypeCounts['video'] ?? 0)}}</strong> vídeos
         </a>
     </div>

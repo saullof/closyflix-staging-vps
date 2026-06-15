@@ -166,9 +166,9 @@ class PostsHelperServiceProvider extends ServiceProvider
      * @return array|LengthAwarePaginator
      * @phpstan-return ($encodePostsToHtml is true ? array<string, mixed> : LengthAwarePaginator)
      */
-    public static function getUserPosts($userID, $encodePostsToHtml = false, $pageNumber = false, $mediaType = false, $hasSub = false)
+    public static function getUserPosts($userID, $encodePostsToHtml = false, $pageNumber = false, $mediaType = false, $hasSub = false, $accessType = 'all')
     {
-        return self::getFilteredPosts($userID, $encodePostsToHtml, $pageNumber, $mediaType, true, $hasSub, false);
+        return self::getFilteredPosts($userID, $encodePostsToHtml, $pageNumber, $mediaType, true, $hasSub, false, false, '', '', $accessType);
     }
 
     /**
@@ -196,7 +196,7 @@ class PostsHelperServiceProvider extends ServiceProvider
      * @return array|LengthAwarePaginator
      * @phpstan-return ($encodePostsToHtml is true ? array<string, mixed> : LengthAwarePaginator)
      */
-    public static function getFilteredPosts($userID, $encodePostsToHtml, $pageNumber, $mediaType, $ownPosts, $hasSub, $bookMarksOnly, $sortOrder = false, $searchTerm = '', $searchMode = '')
+    public static function getFilteredPosts($userID, $encodePostsToHtml, $pageNumber, $mediaType, $ownPosts, $hasSub, $bookMarksOnly, $sortOrder = false, $searchTerm = '', $searchMode = '', $accessType = 'all')
     {
         $relations = ['user', 'reactions', 'attachments', 'bookmarks', 'postPurchases', 'mentions.mentionedUser'];
 
@@ -250,6 +250,10 @@ class PostsHelperServiceProvider extends ServiceProvider
         // Media type filters
         if ($mediaType) {
             $posts = self::filterPosts($posts, $userID, 'media', $mediaType);
+        }
+
+        if ($ownPosts && $accessType !== 'all') {
+            $posts = self::filterPosts($posts, $userID, 'access', $accessType);
         }
 
         // Filtering the search term
@@ -421,6 +425,18 @@ class PostsHelperServiceProvider extends ServiceProvider
             $posts->whereHas('attachments', function ($query) use ($mediaTypes) {
                 $query->whereIn('type', $mediaTypes);
             });
+        }
+
+        if ($filterType == 'access') {
+            if ($mediaType === 'free') {
+                $posts->where('posts.is_free', true)
+                    ->where('posts.price', '<=', 0);
+            } elseif ($mediaType === 'subscription') {
+                $posts->where('posts.is_free', false)
+                    ->where('posts.price', '<=', 0);
+            } elseif ($mediaType === 'pack') {
+                $posts->where('posts.price', '>', 0);
+            }
         }
 
         if ($filterType == 'search'){
@@ -634,6 +650,17 @@ class PostsHelperServiceProvider extends ServiceProvider
             })
             ->get();
         $typeCounts = [
+            'posts' => Post::query()
+                ->where('user_id', $userID)
+                ->where(function ($query) {
+                    $query->where('expire_date', '>', Carbon::now())
+                        ->orWhereNull('expire_date');
+                })
+                ->where(function ($query) {
+                    $query->where('release_date', '<', Carbon::now())
+                        ->orWhereNull('release_date');
+                })
+                ->count(),
             'video' => 0,
             'audio' => 0,
             'image' => 0,
@@ -644,6 +671,61 @@ class PostsHelperServiceProvider extends ServiceProvider
         $streams = Stream::where('user_id', $userID)->where('is_public', 1)->whereIn('status', [Stream::ENDED_STATUS, Stream::IN_PROGRESS_STATUS])->count();
         $typeCounts['streams'] = $streams;
         return $typeCounts;
+    }
+
+    /**
+     * Returns profile feed counters for a selected access category.
+     * Media counters represent files, while the all counter represents posts.
+     *
+     * @param int $userID
+     * @param string $accessType
+     * @return array<string, int>
+     */
+    public static function getUserProfileFeedCounts($userID, $accessType = 'all')
+    {
+        $posts = Post::query()
+            ->where('posts.user_id', $userID);
+        $viewerIsOwner = Auth::check() && Auth::id() === (int) $userID;
+        $viewerIsAdmin = Auth::check() && Auth::user()->role_id === 1;
+
+        if (!$viewerIsOwner) {
+            $posts->where(function ($query) {
+                $query->where('posts.expire_date', '>', Carbon::now())
+                    ->orWhereNull('posts.expire_date');
+            })
+            ->where(function ($query) {
+                $query->where('posts.release_date', '<', Carbon::now())
+                    ->orWhereNull('posts.release_date');
+            });
+        }
+
+        if (!$viewerIsOwner && !$viewerIsAdmin) {
+            $posts->where('posts.status', Post::APPROVED_STATUS);
+        }
+
+        if ($accessType !== 'all') {
+            $posts = self::filterPosts($posts, $userID, 'access', $accessType);
+        }
+
+        $postIds = (clone $posts)->select('posts.id');
+        $attachments = Attachment::query()
+            ->whereIn('attachments.post_id', $postIds)
+            ->get(['attachments.type']);
+
+        $counts = [
+            'posts' => (clone $posts)->count(),
+            'image' => 0,
+            'video' => 0,
+        ];
+
+        foreach ($attachments as $attachment) {
+            $type = AttachmentServiceProvider::getAttachmentType($attachment->type);
+            if (array_key_exists($type, $counts)) {
+                $counts[$type]++;
+            }
+        }
+
+        return $counts;
     }
 
     /**
