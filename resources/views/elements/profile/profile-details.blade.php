@@ -59,7 +59,7 @@
 @if(!getSetting('profiles.disable_website_link_on_profile') && $user->website)
     <div class="profile-instagram-link px-4 py-1">
         <a href="{{$user->website}}" target="_blank" rel="nofollow noopener" title="{{__('Instagram')}}" aria-label="{{__('Instagram')}}">
-            @include('elements.icon',['icon'=>'logo-instagram','centered'=>true])
+            <img src="{{asset('img/logos/instagram.png')}}" alt="{{__('Instagram')}}">
         </a>
     </div>
 @endif
@@ -111,13 +111,13 @@
 
     <div class="profile-stats-inline text-muted">
         <a class="{{$activeFilter == false ? 'active' : ''}}" href="{{route('profile',['username'=> $user->username])}}">
-            <strong>{{short_number($posts->total())}}</strong> {{trans_choice('posts', $posts->total())}}
+            <strong>{{short_number($posts->total())}}</strong> posts
         </a>
         <a class="{{$activeFilter == 'image' ? 'active' : ''}}" href="{{route('profile',['username'=> $user->username]) . '?filter=image'}}">
-            <strong>{{short_number($filterTypeCounts['image'] ?? 0)}}</strong> {{trans_choice('images', $filterTypeCounts['image'] ?? 0)}}
+            <strong>{{short_number($filterTypeCounts['image'] ?? 0)}}</strong> fotos
         </a>
         <a class="{{$activeFilter == 'video' ? 'active' : ''}}" href="{{route('profile',['username'=> $user->username]) . '?filter=video'}}">
-            <strong>{{short_number($filterTypeCounts['video'] ?? 0)}}</strong> {{trans_choice('videos', $filterTypeCounts['video'] ?? 0)}}
+            <strong>{{short_number($filterTypeCounts['video'] ?? 0)}}</strong> vídeos
         </a>
     </div>
 </div>

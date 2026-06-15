@@ -287,30 +287,24 @@
 }
 
 .profile-instagram-link a{
-    width: 46px;
-    height: 46px;
-    border-radius: 9px;
+    width: 50px;
+    height: 50px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
-    font-size: 29px;
     text-decoration: none;
-    background:
-        radial-gradient(circle at 30% 107%, #fdf497 0 5%, #fdf497 5% 15%, #fd5949 35%, #d6249f 62%, #285aeb 90%);
-    box-shadow: 0 2px 8px rgba(0,0,0,.16);
-    transition: transform .12s ease, box-shadow .12s ease;
+    transition: transform .12s ease;
 }
 
 .profile-instagram-link a:hover{
-    color: #fff;
     text-decoration: none;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,.22);
 }
 
-.profile-instagram-link ion-icon{
-    font-size: inherit;
+.profile-instagram-link img{
+    width: 40px;
+    height: 40px;
+    display: block;
 }
 
 .profile-meta-row{
@@ -353,7 +347,7 @@
 .profile-stats-inline a + a{
     margin-left: 12px;
     padding-left: 12px;
-    border-left: 1px solid var(--primary);
+    border-left: 1px solid #e03131;
 }
 
 @media (min-width: 769px){
