@@ -17,25 +17,25 @@
                 'type' => \App\Model\Transaction::ONE_MONTH_SUBSCRIPTION,
                 'months' => 1,
                 'amount' => (float) ($user->profile_access_price ?: getSetting('payments.default_subscription_price')),
-                'helper' => __('Access for 30 days'),
+                'helper' => 'Acesso por 30 dias',
             ],
             [
                 'type' => \App\Model\Transaction::THREE_MONTHS_SUBSCRIPTION,
                 'months' => 3,
                 'amount' => (float) $user->profile_access_price_3_months * 3,
-                'helper' => __('Fewer renewals'),
+                'helper' => 'Menos renovações',
             ],
             [
                 'type' => \App\Model\Transaction::SIX_MONTHS_SUBSCRIPTION,
                 'months' => 6,
                 'amount' => (float) $user->profile_access_price_6_months * 6,
-                'helper' => __('Extended access'),
+                'helper' => 'Acesso prolongado',
             ],
             [
                 'type' => \App\Model\Transaction::YEARLY_SUBSCRIPTION,
                 'months' => 12,
                 'amount' => (float) $user->profile_access_price_12_months * 12,
-                'helper' => __('Best long-term option'),
+                'helper' => 'Melhor opção de longo prazo',
             ],
         ])->filter(fn (array $plan) => $plan['amount'] > 0)->values();
 
@@ -58,32 +58,31 @@
                         <img src="{{ $user->avatar }}" class="legacy-checkout-avatar" alt="{{ $user->name }}">
                         <div class="legacy-checkout-profile-copy">
                             <h1>{{ $user->name }}</h1>
-                            <span>@{{ $user->username }}</span>
+                            <span>{{ '@'.$user->username }}</span>
                         </div>
                     </div>
 
                     <div class="legacy-checkout-intro">
-                        <h2>{{ __('Get access to exclusive content') }}</h2>
+                        <h2>Tenha acesso ao conteúdo exclusivo</h2>
                         <ul class="legacy-checkout-benefits">
-                            <li><i class="fas fa-check"></i> {{ __('Access to exclusive photos and videos') }}</li>
-                            <li><i class="fas fa-check"></i> {{ __('Chat directly with the creator') }}</li>
-                            <li><i class="fas fa-check"></i> {{ __('Cancel your subscription at any time') }}</li>
+                            <li><i class="fas fa-check"></i> Acesso a fotos e vídeos exclusivos</li>
+                            <li><i class="fas fa-check"></i> Converse diretamente com o criador</li>
+                            <li><i class="fas fa-check"></i> Cancele sua assinatura quando quiser</li>
                         </ul>
                     </div>
 
                     @if($coupon)
                         <div class="legacy-checkout-coupon">
                             <i class="fas fa-tag"></i>
-                            <span>{{ __('Coupon applied') }}: <strong>{{ $coupon->coupon_code }}</strong></span>
+                            <span>Cupom aplicado: <strong>{{ $coupon->coupon_code }}</strong></span>
                         </div>
                     @endif
 
                     <section class="legacy-checkout-step">
                         <div class="legacy-checkout-step-heading">
-                            <span class="legacy-checkout-step-number">1</span>
                             <div>
-                                <h3>{{ __('Choose your subscription plan') }}</h3>
-                                <p>{{ __('Select how long you want access to this profile.') }}</p>
+                                <h3>Escolha seu plano de assinatura</h3>
+                                <p>Selecione por quanto tempo deseja acessar este perfil.</p>
                             </div>
                         </div>
 
@@ -102,7 +101,7 @@
                                         <strong>{{ trans_choice('months', $plan['months'], ['number' => $plan['months']]) }}</strong>
                                         <small>{{ $plan['helper'] }}</small>
                                         @if($plan['months'] === 12)
-                                            <span class="legacy-plan-badge">{{ __('Best offer') }}</span>
+                                            <span class="legacy-plan-badge">Melhor oferta</span>
                                         @endif
                                     </span>
                                     <strong class="legacy-plan-price">
@@ -115,10 +114,9 @@
 
                     <section class="legacy-checkout-step legacy-checkout-payment-step">
                         <div class="legacy-checkout-step-heading">
-                            <span class="legacy-checkout-step-number">2</span>
                             <div>
-                                <h3>{{ __('Complete your purchase') }}</h3>
-                                <p>{{ __('Review the details and choose PIX or card to pay securely.') }}</p>
+                                <h3>Finalize sua compra</h3>
+                                <p>Confira os detalhes e escolha PIX ou cartão para pagar com segurança.</p>
                             </div>
                         </div>
 
@@ -147,7 +145,7 @@
 
                 <div class="legacy-checkout-security">
                     <i class="fas fa-lock"></i>
-                    <span>{{ __('Secure payment. Your financial data is processed by the payment provider.') }}</span>
+                    <span>Pagamento seguro. Seus dados financeiros são processados pelo provedor de pagamento.</span>
                 </div>
             </div>
         </div>
@@ -320,19 +318,6 @@
             font-size: .86rem;
         }
 
-        .legacy-checkout-step-number {
-            display: inline-flex;
-            flex: 0 0 30px;
-            align-items: center;
-            justify-content: center;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            color: #fff;
-            font-weight: 700;
-            background: linear-gradient(135deg, #bc1522, #8f096f);
-        }
-
         .legacy-checkout-plans {
             display: grid;
             gap: .75rem;
@@ -358,7 +343,7 @@
 
         .legacy-plan-option.selected {
             border-color: #e13b49;
-            background: linear-gradient(135deg, rgba(188, 21, 34, .28), rgba(143, 9, 111, .12));
+            background: linear-gradient(135deg, rgba(188, 21, 34, .3), rgba(45, 45, 45, .75));
             box-shadow: 0 0 0 1px rgba(225, 59, 73, .2);
         }
 
@@ -430,6 +415,7 @@
         .legacy-checkout-payment-step .modal-content {
             border: 0;
             border-radius: 12px;
+            color: #e5e5e5;
             background: #282828;
             box-shadow: none;
         }
@@ -453,7 +439,76 @@
             border: 0;
             border-radius: 999px;
             font-weight: 700;
-            background: linear-gradient(135deg, #bc1522, #8f096f);
+            color: #fff;
+            background: linear-gradient(135deg, #e13b49, #9f101c);
+        }
+
+        .legacy-checkout-payment-step a,
+        .legacy-checkout-payment-step .text-primary {
+            color: #e13b49 !important;
+        }
+
+        .legacy-checkout-payment-step .btn-primary,
+        .legacy-checkout-payment-step .btn-primary:hover,
+        .legacy-checkout-payment-step .btn-primary:focus {
+            border-color: #bc1522;
+            color: #fff;
+            background: linear-gradient(135deg, #e13b49, #9f101c);
+            box-shadow: none;
+        }
+
+        .legacy-checkout-payment-step .btn-outline-primary {
+            border-color: #bc1522;
+            color: #f0606c;
+            background: transparent;
+        }
+
+        .legacy-checkout-payment-step .btn-outline-primary:hover,
+        .legacy-checkout-payment-step .btn-outline-primary:focus {
+            border-color: #e13b49;
+            color: #fff;
+            background: #bc1522;
+            box-shadow: none;
+        }
+
+        .legacy-checkout-payment-step .form-control,
+        .legacy-checkout-payment-step .selectize-input,
+        .legacy-checkout-payment-step .selectize-dropdown,
+        .legacy-checkout-payment-step .card,
+        .legacy-checkout-payment-step .card-header {
+            border-color: #4a4a4a;
+            color: #eee;
+            background: #1e1e1e;
+        }
+
+        .legacy-checkout-payment-step .form-control:focus,
+        .legacy-checkout-payment-step .selectize-input.focus {
+            border-color: #e13b49;
+            box-shadow: 0 0 0 .2rem rgba(225, 59, 73, .18);
+        }
+
+        .legacy-checkout-payment-step .selectize-dropdown .option {
+            color: #ddd;
+            background: #1e1e1e;
+        }
+
+        .legacy-checkout-payment-step .selectize-dropdown .active {
+            color: #fff;
+            background: #bc1522;
+        }
+
+        .legacy-checkout-payment-step .checkout-payment-provider {
+            border-color: #555;
+            background: #1e1e1e;
+        }
+
+        .legacy-checkout-payment-step .checkout-payment-provider.selected {
+            border-color: #e13b49 !important;
+            box-shadow: 0 0 0 2px rgba(225, 59, 73, .2);
+        }
+
+        .legacy-checkout-payment-step .text-muted {
+            color: #aaa !important;
         }
 
         .legacy-checkout-security {

@@ -697,7 +697,7 @@ class PaymentHelper
             \Stripe\Stripe::setApiKey($stripeSecretKey);
             $isSubscriptionPayment = $this->isSubscriptionPayment($transactionType);
             $isStripePixProvider = $transaction->payment_provider === Transaction::STRIPE_PIX_PROVIDER;
-            $stripeCurrency = strtolower(config('app.site.currency_code'));
+            $stripeCurrency = strtolower((string) (getSetting('payments.currency_code') ?: config('app.site.currency_code')));
 
             if ($isStripePixProvider && $stripeCurrency !== 'brl') {
                 throw new \Exception('Stripe PIX is only available for BRL transactions.');
@@ -712,7 +712,7 @@ class PaymentHelper
                 // generate stripe price
                 $price = \Stripe\Price::create([
                     'product' => $product->id,
-                    'unit_amount' => $transaction->amount * 100,
+                    'unit_amount' => (int) round($transaction->amount * 100),
                     'currency' => $stripeCurrency,
                     'recurring' => [
                         'interval' => 'month',
@@ -733,7 +733,7 @@ class PaymentHelper
                             'name' => $this->getPaymentDescriptionByTransaction($transaction),
                             'description' => $this->getPaymentDescriptionByTransaction($transaction),
                         ],
-                        'unit_amount' => $transaction->amount * 100,
+                        'unit_amount' => (int) round($transaction->amount * 100),
                     ],
                     'quantity' => 1,
                 ];

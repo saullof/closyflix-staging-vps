@@ -226,7 +226,7 @@
                                         </div>
                                     </div>
                                 @endif
-                                @if(getSetting('payments.stripe_pix_secret_key') && getSetting('payments.stripe_pix_public_key') && !getSetting('payments.stripe_pix_checkout_disabled') && strtoupper(config('app.site.currency_code')) === 'BRL')
+                                @if(getSetting('payments.stripe_pix_secret_key') && getSetting('payments.stripe_pix_public_key') && !getSetting('payments.stripe_pix_checkout_disabled') && strtoupper((string) (getSetting('payments.currency_code') ?: config('app.site.currency_code'))) === 'BRL')
                                     <div class="p-1 col-6 col-md-3 col-lg-3 col-md-3 stripe-pix-payment-method">
                                         <div class="radio mx-auto stripe-pix-payment-provider checkout-payment-provider d-flex align-items-center justify-content-center my-0" data-value="stripe_pix">
                                             <img src="{{asset('/img/logos/pix.png')}}">
