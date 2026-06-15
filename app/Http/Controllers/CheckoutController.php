@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use App\Model\Coupon;
 use App\Model\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
     public function index(Request $request, string $username, ?string $coupon_code = null)
     {
+        if (!Auth::check()) {
+            return redirect()->guest(route('login'));
+        }
+
         $user = User::query()->where('username', $username)->firstOrFail();
         $coupon = null;
 

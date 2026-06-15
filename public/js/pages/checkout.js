@@ -46,6 +46,8 @@ function selectFirstAvailablePaymentMethod() {
 function configureCheckoutFromTrigger(trigger) {
     const data = getCheckoutDataFromTrigger($(trigger));
     const activeCoupon = checkout.paymentData.coupon || data.coupon || '';
+    const couponAlreadyApplied = checkout.paymentData.coupon === activeCoupon
+        && Number(checkout.paymentData.couponDiscount || 0) > 0;
 
     checkout.initiatePaymentData(
         data.type,
@@ -146,7 +148,7 @@ function configureCheckoutFromTrigger(trigger) {
         $('#billingInformation').collapse('hide');
     }
 
-    if (activeCoupon) {
+    if (activeCoupon && !couponAlreadyApplied) {
         $('#coupon-input').val(activeCoupon);
         checkout.applyCoupon();
     }
