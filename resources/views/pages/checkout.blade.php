@@ -51,7 +51,12 @@
                 <section class="legacy-checkout-card">
                     <div class="legacy-checkout-timer" role="timer" aria-live="polite">
                         <div class="legacy-checkout-timer-copy">
-                            <i class="far fa-clock"></i>
+                            <span class="legacy-checkout-timer-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" role="img">
+                                    <circle cx="12" cy="12" r="9"></circle>
+                                    <path d="M12 7v5l3 2"></path>
+                                </svg>
+                            </span>
                             <span>Oferta reservada por</span>
                         </div>
                         <strong><span class="checkout-timer-minutes">15</span>:<span class="checkout-timer-seconds">00</span></strong>
@@ -73,9 +78,18 @@
                     <div class="legacy-checkout-intro">
                         <h2>Tenha acesso ao conteúdo exclusivo</h2>
                         <ul class="legacy-checkout-benefits">
-                            <li><i class="fas fa-check"></i> Acesso a fotos e vídeos exclusivos</li>
-                            <li><i class="fas fa-check"></i> Converse diretamente comigo</li>
-                            <li><i class="fas fa-check"></i> Cancele sua assinatura quando quiser</li>
+                            <li>
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>
+                                <span>Acesso a fotos e vídeos exclusivos</span>
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>
+                                <span>Converse diretamente comigo</span>
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>
+                                <span>Cancele sua assinatura quando quiser</span>
+                            </li>
                         </ul>
                     </div>
 
@@ -246,7 +260,7 @@
             font-weight: 600;
         }
 
-        .legacy-checkout-timer-copy i {
+        .legacy-checkout-timer-icon {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -254,6 +268,16 @@
             height: 34px;
             border-radius: 50%;
             background: rgba(255, 255, 255, .16);
+        }
+
+        .legacy-checkout-timer-icon svg {
+            width: 21px;
+            height: 21px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         .legacy-checkout-timer strong {
@@ -336,9 +360,21 @@
             list-style: none;
         }
 
-        .legacy-checkout-benefits i {
+        .legacy-checkout-benefits li {
+            display: flex;
+            align-items: center;
+            gap: .65rem;
+        }
+
+        .legacy-checkout-benefits svg {
+            flex: 0 0 22px;
             width: 22px;
-            color: #e13b49;
+            height: 22px;
+            fill: none;
+            stroke: #e13b49;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         .legacy-checkout-coupon {

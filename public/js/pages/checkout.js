@@ -726,8 +726,11 @@ var checkout = {
     },
 
     renderBaseSummary: function () {
+        const originalAmount = parseFloat(checkout.paymentData.amount || 0);
         const baseAmount = checkout.getDiscountedBaseAmount();
         const formattedAmount = baseAmount.toFixed(2);
+        const formattedOriginalAmount = originalAmount.toFixed(2);
+        const formattedDiscount = Math.max(0, originalAmount - baseAmount).toFixed(2);
 
         checkout.paymentData.taxes = {
             data: [],
@@ -739,8 +742,12 @@ var checkout = {
         checkout.paymentData.totalAmount = formattedAmount;
 
         $('.taxes-details').empty();
-        $('.subtotal-amount b').html(getWebsiteFormattedAmount(formattedAmount));
-        $('.total-without-tax-amount b').html(getWebsiteFormattedAmount(formattedAmount));
+        $('.subtotal-amount b').html(getWebsiteFormattedAmount(formattedOriginalAmount));
+        $('.discount-amount b').html(
+            parseFloat(formattedDiscount) > 0
+                ? '-' + getWebsiteFormattedAmount(formattedDiscount)
+                : getWebsiteFormattedAmount(formattedDiscount)
+        );
         $('.total-amount b').html(getWebsiteFormattedAmount(formattedAmount));
     },
 
@@ -810,8 +817,15 @@ var checkout = {
                     $('.taxes-details').append(item);
                 });
 
-                $('.subtotal-amount b').html(getWebsiteFormattedAmount(quote.subtotal));
-                $('.total-without-tax-amount b').html(getWebsiteFormattedAmount(quote.netSubtotal));
+                const originalAmount = parseFloat(checkout.paymentData.amount || 0);
+                const discountedAmount = checkout.getDiscountedBaseAmount();
+                $('.subtotal-amount b').html(getWebsiteFormattedAmount(originalAmount.toFixed(2)));
+                const discountAmount = Math.max(0, originalAmount - discountedAmount).toFixed(2);
+                $('.discount-amount b').html(
+                    parseFloat(discountAmount) > 0
+                        ? '-' + getWebsiteFormattedAmount(discountAmount)
+                        : getWebsiteFormattedAmount(discountAmount)
+                );
                 $('.total-amount b').html(getWebsiteFormattedAmount(quote.total));
 
                 // Credit gating uses total

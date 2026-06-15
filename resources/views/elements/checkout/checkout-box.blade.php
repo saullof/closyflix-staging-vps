@@ -168,25 +168,22 @@
                             </div>
 
                             <div class="checkout-payment-box-section">
-                            <h6 class="font-weight-bolder">{{__('Payment summary')}}</h6>
+                            <h6 class="font-weight-bolder">Resumo do pagamento</h6>
                             <div class="subtotal row mb-1">
-                                <span class="col-sm left ">{{__('Subtotal')}}:</span>
+                                <span class="col-sm left">Subtotal:</span>
                                 <span class="subtotal-amount col-sm right text-right">
                                         <b>$0.00</b>
                                     </span>
                             </div>
-                            <div class="total-without-tax row mb-1">
-                                <span class="col-sm left ">{{__('Total excluding tax')}}:</span>
-                                <span class="total-without-tax-amount col-sm right text-right">
+                            <div class="discount row mb-1">
+                                <span class="col-sm left">Desconto:</span>
+                                <span class="discount-amount col-sm right text-right">
                                         <b>$0.00</b>
                                     </span>
                             </div>
-                            <div class="taxes row mb-1">
-                                <span class="col-sm left ">{{__('Taxes')}}</span>
-                            </div>
-                            <div class="taxes-details mb-1"></div>
+                            <div class="taxes-details d-none"></div>
                             <div class="total row">
-                                <span class="col-sm left ">{{__('Total')}}:</span>
+                                <span class="col-sm left">Total:</span>
                                 <span class="total-amount col-sm right text-right">
                                         <b>$0.00</b>
                                     </span>
@@ -355,8 +352,9 @@
                             </div>
                         </div>
                         <div class="payment-error error text-danger text-bold d-none mb-1">{{__('Please select your payment method')}}</div>
-                        <p class="text-muted mt-1 small mb-0"> {{__('Prefer to add funds? Visit your')}} <a  target="_blank" href="{{route('my.settings', ['type' => 'wallet', 'active' => 'deposit'])}}">{{__('Wallet page')}}</a>. </p>
-                        <p class="text-muted mt-1 small mb-0"> {{__('Click the continue button to pay securely and return once finished.')}}</p>
+                        <p class="text-muted mt-2 small mb-0">
+                            Após clicar no botão, você será direcionado para um gateway seguro de pagamento. Após concluir o processo de pagamento, você será redirecionado de volta para o site.
+                        </p>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary checkout-continue-btn">{{__('Continue')}}
