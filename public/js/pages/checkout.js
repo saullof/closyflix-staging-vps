@@ -150,6 +150,7 @@ function configureCheckoutFromTrigger(trigger) {
     $('#payment-title').text(paymentTitle);
     $('.payment-body .payment-description').toggleClass('d-none', !paymentDescription).text(paymentDescription);
     $('#checkout-amount').val(data.amount);
+    checkout.renderBaseSummary();
 
     if (!data.firstName || !data.lastName || !data.billingAddress || !data.city || !data.state || !data.postcode || !data.country) {
         $('#billingInformation').collapse('show');
@@ -657,7 +658,7 @@ var checkout = {
         }
 
         if (checkout._countriesXhr && checkout._countriesXhr.readyState !== 4) {
-            checkout._countriesXhr.abort();
+            return;
         }
 
         checkout._countriesXhr = $.ajax({
@@ -714,12 +715,33 @@ var checkout = {
     },
 
     refreshCountryAndSummary: function () {
+        checkout.renderBaseSummary();
+
         if (checkout._countriesLoaded && $('.country-select option').length) {
             checkout.selectCurrentCountry();
             checkout.updatePaymentSummaryData();
         } else {
             checkout.fillCountrySelectOptions();
         }
+    },
+
+    renderBaseSummary: function () {
+        const baseAmount = checkout.getDiscountedBaseAmount();
+        const formattedAmount = baseAmount.toFixed(2);
+
+        checkout.paymentData.taxes = {
+            data: [],
+            subtotal: formattedAmount,
+            netSubtotal: formattedAmount,
+            total: formattedAmount,
+            taxesTotalAmount: "0.00"
+        };
+        checkout.paymentData.totalAmount = formattedAmount;
+
+        $('.taxes-details').empty();
+        $('.subtotal-amount b').html(getWebsiteFormattedAmount(formattedAmount));
+        $('.total-without-tax-amount b').html(getWebsiteFormattedAmount(formattedAmount));
+        $('.total-amount b').html(getWebsiteFormattedAmount(formattedAmount));
     },
 
     /**
@@ -737,16 +759,10 @@ var checkout = {
 
         // Base amount: tips/deposits use input; for other types BE overrides internally
         const baseAmount = checkout.getDiscountedBaseAmount();
+        checkout.renderBaseSummary();
 
         // If no country selected, clear taxes UI and show base totals only
         if (!countryName) {
-            checkout.paymentData.taxes = { data: [], subtotal: baseAmount.toFixed(2), total: baseAmount.toFixed(2), taxesTotalAmount: "0.00" };
-            checkout.paymentData.totalAmount = baseAmount.toFixed(2);
-
-            $('.taxes-details').empty();
-            $('.subtotal-amount b').html(getWebsiteFormattedAmount(baseAmount.toFixed(2)));
-            $('.total-amount b').html(getWebsiteFormattedAmount(baseAmount.toFixed(2)));
-
             $('.available-credit').html('(' + getWebsiteFormattedAmount(checkout.paymentData.availableCredit) + ')');
             if (parseFloat(checkout.paymentData.availableCredit || 0) < baseAmount) {
                 $(".credit-payment-provider").css("pointer-events", "none");
