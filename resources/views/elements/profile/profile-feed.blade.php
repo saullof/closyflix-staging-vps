@@ -1,33 +1,67 @@
-<div class="mt-3 inline-border-tabs">
-    <nav class="nav nav-pills nav-justified text-bold">
-        <a class="nav-item nav-link {{$activeFilter == false ? 'active' : ''}}" href="{{route('profile',['username'=> $user->username])}}">{{trans_choice('posts', $posts->total(), ['number'=> short_number($posts->total()) ])}} </a>
+@php
+    $profileFilterUrl = static function ($media, $access, $view) use ($user) {
+        $query = [];
 
-        @if($filterTypeCounts['image'] > 0)
-            <a class="nav-item nav-link {{$activeFilter == 'image' ? 'active' : ''}}" href="{{route('profile',['username'=> $user->username]) . '?filter=image'}}">{{trans_choice('images', $filterTypeCounts['image'], ['number'=> short_number($filterTypeCounts['image'])])}}</a>
+        if (in_array($media, ['image', 'video', 'reels'], true)) {
+            $query['filter'] = $media;
+        }
+        if ($media !== 'reels' && in_array($access, ['free', 'subscription', 'pack'], true)) {
+            $query['access'] = $access;
+        }
+        if ($media !== 'reels' && $view === 'grid') {
+            $query['view'] = 'grid';
+        }
+
+        return route('profile', ['username' => $user->username])
+            . ($query ? '?'.http_build_query($query) : '');
+    };
+    $selectedMedia = in_array($activeFilter, ['image', 'video', 'reels'], true) ? $activeFilter : null;
+@endphp
+
+<div class="profile-feed-navigation mt-3 inline-border-tabs">
+    <nav class="profile-media-tabs" aria-label="Tipos de mídia">
+        <a class="profile-media-tab {{$selectedMedia === null ? 'active' : ''}}" href="{{$profileFilterUrl(null, $accessFilter, $profileFeedView)}}">
+            <span>Todos</span>
+            <strong>({{short_number($profileFeedCounts['posts'])}})</strong>
+        </a>
+        <a class="profile-media-tab {{$selectedMedia === 'image' ? 'active' : ''}}" href="{{$profileFilterUrl('image', $accessFilter, $profileFeedView)}}">
+            <span>Fotos</span>
+            <strong>({{short_number($profileFeedCounts['image'])}})</strong>
+        </a>
+        <a class="profile-media-tab {{$selectedMedia === 'video' ? 'active' : ''}}" href="{{$profileFilterUrl('video', $accessFilter, $profileFeedView)}}">
+            <span>Vídeos</span>
+            <strong>({{short_number($profileFeedCounts['video'])}})</strong>
+        </a>
+        @if(getSetting('reels.reels_enabled'))
+            <a class="profile-media-tab {{$selectedMedia === 'reels' ? 'active' : ''}}" href="{{$profileFilterUrl('reels', 'all', 'list')}}">
+                <span>Reels</span>
+                <strong>({{short_number($filterTypeCounts['reels'] ?? 0)}})</strong>
+            </a>
         @endif
-
-        @if($filterTypeCounts['video'] > 0)
-            <a class="nav-item nav-link {{$activeFilter == 'video' ? 'active' : ''}}" href="{{route('profile',['username'=> $user->username]) . '?filter=video'}}">{{trans_choice('videos', $filterTypeCounts['video'], ['number'=> short_number($filterTypeCounts['video'])])}}</a>
-
-        @endif
-
-        @if($filterTypeCounts['audio'] > 0)
-            <a class="nav-item nav-link {{$activeFilter == 'audio' ? 'active' : ''}}" href="{{route('profile',['username'=> $user->username]) . '?filter=audio'}}">{{trans_choice('audio', $filterTypeCounts['audio'], ['number'=> short_number($filterTypeCounts['audio'])])}}</a>
-        @endif
-
-        @if(getSetting('streams.streaming_driver') !== 'none')
-            @if(isset($filterTypeCounts['streams']) && $filterTypeCounts['streams'] > 0)
-                <a class="nav-item nav-link {{$activeFilter == 'streams' ? 'active' : ''}}" href="{{route('profile',['username'=> $user->username]) . '?filter=streams'}}"> {{short_number($filterTypeCounts['streams'])}} {{trans_choice('streams', $filterTypeCounts['streams'], ['number'=> short_number($filterTypeCounts['streams'])])}}</a>
-            @endif
-        @endif
-
-        @if(getSetting('reels.reels_enabled') && isset($filterTypeCounts['reels']) && ($filterTypeCounts['reels'] > 0 || (Auth::check() && Auth::user()->id === $user->id)))
-            <a class="nav-item nav-link {{$activeFilter == 'reels' ? 'active' : ''}}" href="{{route('profile',['username'=> $user->username]) . '?filter=reels'}}"> {{short_number($filterTypeCounts['reels'])}} {{__('Reels')}}</a>
-        @endif
-
     </nav>
+
+    @if($activeFilter !== 'reels')
+        <div class="profile-feed-toolbar">
+            <nav class="profile-access-tabs" aria-label="Acesso às postagens">
+                <a class="profile-access-tab {{$accessFilter === 'all' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, 'all', $profileFeedView)}}">Ver tudo</a>
+                <a class="profile-access-tab {{$accessFilter === 'free' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, 'free', $profileFeedView)}}">Gratuito</a>
+                <a class="profile-access-tab {{$accessFilter === 'subscription' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, 'subscription', $profileFeedView)}}">Assinatura</a>
+                <a class="profile-access-tab {{$accessFilter === 'pack' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, 'pack', $profileFeedView)}}">Packs</a>
+            </nav>
+
+            <div class="profile-view-tabs" aria-label="Visualização do feed">
+                <a class="profile-view-tab {{$profileFeedView === 'grid' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, $accessFilter, 'grid')}}" title="Visualização em grade" aria-label="Visualização em grade">
+                    @include('elements.icon',['icon'=>'grid-outline','centered'=>true])
+                </a>
+                <a class="profile-view-tab {{$profileFeedView === 'list' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, $accessFilter, 'list')}}" title="Visualização em lista" aria-label="Visualização em lista">
+                    @include('elements.icon',['icon'=>'list-outline','centered'=>true])
+                </a>
+            </div>
+        </div>
+    @endif
 </div>
-<div class="justify-content-center align-items-center {{(Cookie::get('app_feed_prev_page') && PostsHelper::isComingFromPostPage(request()->session()->get('_previous'))) ? 'mt-3' : 'mt-4'}}">
+
+<div class="profile-feed-content profile-feed-view-{{$profileFeedView}} justify-content-center align-items-center {{(Cookie::get('app_feed_prev_page') && PostsHelper::isComingFromPostPage(request()->session()->get('_previous'))) ? 'mt-3' : 'mt-4'}}">
     @if($activeFilter === 'reels')
         <div id="reels-feed"
              class="reels-feed profile-reels-feed"

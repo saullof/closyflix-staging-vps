@@ -60,7 +60,7 @@
     @if(getSetting('security.recaptcha_enabled') && !Auth::check())
         {!! NoCaptcha::renderJs() !!}
     @endif
-    @if($activeFilter)
+    @if($activeFilter || $accessFilter !== 'all' || $profileFeedView !== 'list')
         <link rel="canonical" href="{{route('profile',['username'=> $user->username])}}" />
     @endif
 @stop

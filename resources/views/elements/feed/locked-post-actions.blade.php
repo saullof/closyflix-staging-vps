@@ -1,3 +1,7 @@
+@php
+    $usesPackLabel = in_array(Route::currentRouteName(), ['profile', 'profile.posts'], true);
+@endphp
+
 <div class="{{isset($post->attachments[0]) && AttachmentHelper::hasBlurredPreview($post->attachments[0]) ? 'position-absolute bottom-0' : ''}} w-100 py-3 px-2 px-md-3">
     <div class="card ppv-info-bg rounded-lg">
         <div class="card-body p-3 small">
@@ -38,7 +42,7 @@
                     <div class="d-none d-md-block">
                         <div class="text-center align-items-center justify-content-center">
                             <div class="{{isset($post->attachments[0]) && AttachmentHelper::hasBlurredPreview($post->attachments[0]) ? 'text-white-50' : 'text-muted'}} small ">
-                                {{__('PPV content, unlock to view this post.')}}
+                                {{$usesPackLabel ? 'Conteúdo do Pack. Desbloqueie para visualizar esta postagem.' : __('PPV content, unlock to view this post.')}}
                             </div>
                         </div>
                     </div>
@@ -86,10 +90,9 @@
                             data-placement="top"
                         title="{{__('You need to login first')}}."
                     @endif
-                >{{__('Unlock post for')}} {{\App\Providers\SettingsServiceProvider::getWebsiteFormattedAmount($post->price)}}</button>
+                >{{$usesPackLabel ? 'Desbloquear Pack por' : __('Unlock post for')}} {{\App\Providers\SettingsServiceProvider::getWebsiteFormattedAmount($post->price)}}</button>
             </div>
 
         </div>
     </div>
 </div>
-
