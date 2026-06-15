@@ -49,6 +49,14 @@
         <div class="container">
             <div class="legacy-checkout-shell mx-auto">
                 <section class="legacy-checkout-card">
+                    <div class="legacy-checkout-timer" role="timer" aria-live="polite">
+                        <div class="legacy-checkout-timer-copy">
+                            <i class="far fa-clock"></i>
+                            <span>Oferta reservada por</span>
+                        </div>
+                        <strong><span class="checkout-timer-minutes">15</span>:<span class="checkout-timer-seconds">00</span></strong>
+                    </div>
+
                     <div class="legacy-checkout-cover">
                         <img src="{{ $user->cover }}" alt="{{ __('Cover image') }}">
                         <div class="legacy-checkout-cover-overlay"></div>
@@ -66,7 +74,7 @@
                         <h2>Tenha acesso ao conteúdo exclusivo</h2>
                         <ul class="legacy-checkout-benefits">
                             <li><i class="fas fa-check"></i> Acesso a fotos e vídeos exclusivos</li>
-                            <li><i class="fas fa-check"></i> Converse diretamente com o criador</li>
+                            <li><i class="fas fa-check"></i> Converse diretamente comigo</li>
                             <li><i class="fas fa-check"></i> Cancele sua assinatura quando quiser</li>
                         </ul>
                     </div>
@@ -184,6 +192,20 @@
             if (typeof send_initial_checkout_pixels === 'function') {
                 send_initial_checkout_pixels();
             }
+
+            const minutesDisplay = document.querySelector('.checkout-timer-minutes');
+            const secondsDisplay = document.querySelector('.checkout-timer-seconds');
+            let remainingSeconds = 15 * 60;
+
+            window.setInterval(function () {
+                if (!minutesDisplay || !secondsDisplay || remainingSeconds <= 0) {
+                    return;
+                }
+
+                remainingSeconds -= 1;
+                minutesDisplay.textContent = String(Math.floor(remainingSeconds / 60)).padStart(2, '0');
+                secondsDisplay.textContent = String(remainingSeconds % 60).padStart(2, '0');
+            }, 1000);
         });
     </script>
 
@@ -205,6 +227,41 @@
             border-radius: 18px;
             background: #202020;
             box-shadow: 0 24px 70px rgba(0, 0, 0, .38);
+        }
+
+        .legacy-checkout-timer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: .8rem 1.25rem;
+            color: #fff;
+            background: linear-gradient(135deg, #e13b49, #9f101c);
+        }
+
+        .legacy-checkout-timer-copy {
+            display: flex;
+            align-items: center;
+            gap: .65rem;
+            font-weight: 600;
+        }
+
+        .legacy-checkout-timer-copy i {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .16);
+        }
+
+        .legacy-checkout-timer strong {
+            padding: .35rem .65rem;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-variant-numeric: tabular-nums;
+            background: rgba(255, 255, 255, .16);
         }
 
         .legacy-checkout-cover {
@@ -505,6 +562,18 @@
         .legacy-checkout-payment-step .checkout-payment-provider.selected {
             border-color: #e13b49 !important;
             box-shadow: 0 0 0 2px rgba(225, 59, 73, .2);
+        }
+
+        .legacy-checkout-payment-step .credit-provider-text,
+        .legacy-checkout-payment-step .credit-provider-text b,
+        .legacy-checkout-payment-step .available-credit {
+            color: #fff !important;
+        }
+
+        .legacy-checkout-payment-step .stripe-payment-provider img {
+            width: 84px;
+            height: 50px;
+            object-fit: contain;
         }
 
         .legacy-checkout-payment-step .text-muted {

@@ -222,7 +222,7 @@
                                 @if(getSetting('payments.stripe_secret_key') && getSetting('payments.stripe_public_key') && !getSetting('payments.stripe_checkout_disabled'))
                                     <div class="p-1 col-6 col-md-3 col-lg-3 col-md-3 stripe-payment-method" >
                                         <div class="radio mx-auto stripe-payment-provider checkout-payment-provider d-flex align-items-center justify-content-center my-0" data-value="stripe">
-                                            <img src="{{asset('/img/logos/stripe.svg')}}">
+                                            <img src="https://closyflix.com/img/logos/stripe.svg" alt="{{__('Credit card')}}">
                                         </div>
                                     </div>
                                 @endif
