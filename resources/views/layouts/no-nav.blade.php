@@ -3,7 +3,7 @@
 <head>
     @include('template.head')
 </head>
-<body class="d-flex flex-column">
+<body class="d-flex flex-column {{ GenericHelper::isDarkMode() ? 'theme-dark' : 'theme-light' }}">
 @include('elements.impersonation-header')
 @include('elements.global-announcement')
 <div class="flex-fill">

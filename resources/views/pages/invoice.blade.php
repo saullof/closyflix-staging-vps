@@ -11,7 +11,7 @@
     @stop
     @include('template.head')
 </head>
-<body class="d-flex flex-column">
+<body class="d-flex flex-column {{ GenericHelper::isDarkMode() ? 'theme-dark' : 'theme-light' }}">
 <div class="flex-fill invoice-body invoice-body-{{(Cookie::get('app_theme') == null ? (getSetting('site.default_user_theme') == 'dark' ? 'dark' : 'light') : (Cookie::get('app_theme') == 'dark' ? 'dark' : 'light'))}}">
     <div class="container">
         <div class="invoice-logo text-center">
