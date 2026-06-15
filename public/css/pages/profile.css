@@ -280,6 +280,101 @@
 .profile-social-chip.social-linktree:hover{ border-color:#43E660; color:#1a1a1a; }
 .profile-social-chip.social-beacons:hover{ border-color:#6C5CE7; color:#6C5CE7; }
 
+/* Legacy profile website shortcut and media counters */
+.profile-instagram-link{
+    display: flex;
+    align-items: center;
+}
+
+.profile-instagram-link a{
+    width: 46px;
+    height: 46px;
+    border-radius: 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 29px;
+    text-decoration: none;
+    background:
+        radial-gradient(circle at 30% 107%, #fdf497 0 5%, #fdf497 5% 15%, #fd5949 35%, #d6249f 62%, #285aeb 90%);
+    box-shadow: 0 2px 8px rgba(0,0,0,.16);
+    transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.profile-instagram-link a:hover{
+    color: #fff;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,.22);
+}
+
+.profile-instagram-link ion-icon{
+    font-size: inherit;
+}
+
+.profile-meta-row{
+    gap: 12px;
+}
+
+.profile-meta-details{
+    min-width: 0;
+    gap: 6px 0;
+}
+
+.profile-join-date{
+    white-space: nowrap;
+}
+
+.profile-stats-inline{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 0;
+    margin-top: 8px;
+    font-size: .95rem;
+}
+
+.profile-stats-inline a{
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: inherit;
+    white-space: nowrap;
+}
+
+.profile-stats-inline a:hover,
+.profile-stats-inline a.active{
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.profile-stats-inline a + a{
+    margin-left: 12px;
+    padding-left: 12px;
+    border-left: 1px solid var(--primary);
+}
+
+@media (min-width: 769px){
+    .profile-meta-row{
+        flex-wrap: nowrap;
+    }
+
+    .profile-meta-details{
+        flex: 1 1 auto;
+    }
+
+    .profile-stats-inline{
+        width: auto;
+        flex: 0 0 auto;
+        justify-content: flex-end;
+        margin-top: 0;
+        margin-left: auto;
+        text-align: right;
+    }
+}
+
 
 /* Spotify profile widget (Swiper) */
 .profile-spotify-swiper{

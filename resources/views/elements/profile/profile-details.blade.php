@@ -26,23 +26,6 @@
             @endif
         @endif
     </h6>
-    <div class="h-50 align-items-center d-flex d-md-none">
-        <div class="d-flex">
-            <div class="d-flex mr-2 align-items-center">
-                <div class="mr-1 font-weight-bolder">
-                    {{ short_number(GenericHelper::getTotalLikesForUser($user->id)) }}
-                </div>
-                <div class="text-muted">{{ucfirst(trans_choice('likes', GenericHelper::getTotalLikesForUser($user->id)))}}</div>
-            </div>
-
-            <div class="d-flex mr-1 align-items-center">
-                <div class="mr-1 font-weight-bolder">
-                    {{ short_number(count(ListsHelper::getUserFollowers($user->id))) }}
-                </div>
-                <div class="text-muted">{{ucfirst(trans_choice('followers', count(ListsHelper::getUserFollowers($user->id))))}}</div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <div class="pt-2 pb-2 pl-4 pr-4 profile-description-holder">
@@ -73,6 +56,14 @@
     </div>
 @endif
 
+@if(!getSetting('profiles.disable_website_link_on_profile') && $user->website)
+    <div class="profile-instagram-link px-4 py-1">
+        <a href="{{$user->website}}" target="_blank" rel="nofollow noopener" title="{{__('Instagram')}}" aria-label="{{__('Instagram')}}">
+            @include('elements.icon',['icon'=>'logo-instagram','centered'=>true])
+        </a>
+    </div>
+@endif
+
 @if(!empty($storiesEnabled) && !empty($allowHighlights) && !empty($hasHighlights))
     <div class="profile-highlights mb-3" id="profile-highlights">
         <div class="d-flex justify-content-between align-items-center px-4 pt-2 pb-1">
@@ -90,43 +81,43 @@
     </div>
 @endif
 
-<div class="d-flex flex-column flex-md-row justify-content-md-between pb-2 pl-4 pr-4 mb-3 mt-1">
-
-    <div class="d-flex align-items-center mr-2 text-truncate mb-0 mb-md-0">
-        @include('elements.icon',['icon'=>'calendar-clear-outline','centered'=>false,'classes'=>'mr-1'])
-        <div class="text-truncate ml-1">
-            {{ucfirst($user->created_at->translatedFormat('F d'))}}
-        </div>
-    </div>
-    @if($user->location)
-        <div class="d-flex align-items-center mr-2 text-truncate mb-0 mb-md-0">
-            @include('elements.icon',['icon'=>'location-outline','centered'=>false,'classes'=>'mr-1'])
+<div class="profile-meta-row d-flex flex-column flex-md-row align-items-md-center pb-2 pl-4 pr-4 mb-3 mt-1">
+    <div class="profile-meta-details d-flex flex-wrap align-items-center">
+        <div class="profile-join-date d-flex align-items-center mr-2 text-truncate">
+            @include('elements.icon',['icon'=>'calendar-clear-outline','centered'=>false,'classes'=>'mr-1'])
             <div class="text-truncate ml-1">
-                {{$user->location}}
+                {{ucfirst($user->created_at->translatedFormat('F d'))}}
             </div>
         </div>
-    @endif
-    @if(!getSetting('profiles.disable_website_link_on_profile'))
-        @if($user->website)
-            <div class="d-flex align-items-center mr-2 text-truncate mb-0 mb-md-0">
-                @include('elements.icon',['icon'=>'globe-outline','centered'=>false,'classes'=>'mr-1'])
+
+        @if($user->location)
+            <div class="d-flex align-items-center mr-2 text-truncate">
+                @include('elements.icon',['icon'=>'location-outline','centered'=>false,'classes'=>'mr-1'])
                 <div class="text-truncate ml-1">
-                    <a href="{{$user->website}}" target="_blank" rel="nofollow">
-                        {{str_replace(['https://','http://','www.'],'',$user->website)}}
-                    </a>
+                    {{$user->location}}
                 </div>
             </div>
         @endif
-    @endif
-    @if(getSetting('profiles.allow_gender_pronouns'))
-        @if($user->gender_pronoun)
-            <div class="d-flex align-items-center mr-2 text-truncate mb-0 mb-md-0">
+
+        @if(getSetting('profiles.allow_gender_pronouns') && $user->gender_pronoun)
+            <div class="d-flex align-items-center mr-2 text-truncate">
                 @include('elements.icon',['icon'=>'male-female-outline','centered'=>false,'classes'=>'mr-1'])
                 <div class="text-truncate ml-1">
                     {{$user->gender_pronoun}}
                 </div>
             </div>
         @endif
-    @endif
+    </div>
 
+    <div class="profile-stats-inline text-muted">
+        <a class="{{$activeFilter == false ? 'active' : ''}}" href="{{route('profile',['username'=> $user->username])}}">
+            <strong>{{short_number($posts->total())}}</strong> {{trans_choice('posts', $posts->total())}}
+        </a>
+        <a class="{{$activeFilter == 'image' ? 'active' : ''}}" href="{{route('profile',['username'=> $user->username]) . '?filter=image'}}">
+            <strong>{{short_number($filterTypeCounts['image'] ?? 0)}}</strong> {{trans_choice('images', $filterTypeCounts['image'] ?? 0)}}
+        </a>
+        <a class="{{$activeFilter == 'video' ? 'active' : ''}}" href="{{route('profile',['username'=> $user->username]) . '?filter=video'}}">
+            <strong>{{short_number($filterTypeCounts['video'] ?? 0)}}</strong> {{trans_choice('videos', $filterTypeCounts['video'] ?? 0)}}
+        </a>
+    </div>
 </div>
