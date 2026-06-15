@@ -22,28 +22,6 @@
             @endif
         </div>
 
-        @if(!getSetting('profiles.hide_profile_followers_count'))
-            <div class="d-flex flex-column h-100">
-                <div class="h-50"></div>
-                <div class="h-50 align-items-center d-none d-md-flex">
-                    <div class="d-flex ml-2">
-                        <div class="d-flex mr-2 align-items-center">
-                            <div class="mr-1 font-weight-bolder">
-                                {{ short_number(GenericHelper::getTotalLikesForUser($user->id)) }}
-                            </div>
-                            <div class="text-muted">{{ucfirst(trans_choice('likes', GenericHelper::getTotalLikesForUser($user->id)))}}</div>
-                        </div>
-
-                        <div class="d-flex mr-1 align-items-center">
-                            <div class="mr-1 font-weight-bolder">
-                                {{ short_number(count(ListsHelper::getUserFollowers($user->id))) }}
-                            </div>
-                            <div class="text-muted">{{ucfirst(trans_choice('followers', count(ListsHelper::getUserFollowers($user->id))))}}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
     </div>
 
     <div>
