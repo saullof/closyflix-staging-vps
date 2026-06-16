@@ -188,12 +188,25 @@ class ProfileController extends Controller
 
         Session::put('lastProfileUrl', $request->fullUrl());
 
+        $initialPostIDs = collect($posts->items())->pluck('id')->toArray();
+
+        if ($request->ajax() && $request->get('partial') === 'profile-feed') {
+            return response()->json([
+                'success' => true,
+                'html' => view('elements.profile.profile-feed', $data)->render(),
+                'paginatorConfig' => $paginatorConfig,
+                'initialPostIDs' => $initialPostIDs,
+                'postsFilter' => $postsFilter ?: false,
+                'url' => $request->fullUrlWithoutQuery('partial'),
+            ]);
+        }
+
         JavaScript::put([
             'paginatorConfig' => $paginatorConfig,
             'messengerVars' => [
                 'bootFullMessenger' => false,
             ],
-            'initialPostIDs' => collect($posts->items())->pluck('id')->toArray(),
+            'initialPostIDs' => $initialPostIDs,
             'profileVars' => [
                 'user_id' =>  $this->user->id,
                 'username' => $this->user->username,

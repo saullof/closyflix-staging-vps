@@ -20,15 +20,15 @@
 
 <div class="profile-feed-navigation mt-3 inline-border-tabs">
     <nav class="profile-media-tabs" aria-label="Tipos de mídia">
-        <a class="profile-media-tab {{$selectedMedia === null ? 'active' : ''}}" href="{{$profileFilterUrl(null, $accessFilter, $profileFeedView)}}">
+        <a class="profile-media-tab profile-feed-filter-link {{$selectedMedia === null ? 'active' : ''}}" href="{{$profileFilterUrl(null, $accessFilter, $profileFeedView)}}">
             <span>Todos</span>
             <strong>({{short_number($profileFeedCounts['posts'])}})</strong>
         </a>
-        <a class="profile-media-tab {{$selectedMedia === 'image' ? 'active' : ''}}" href="{{$profileFilterUrl('image', $accessFilter, $profileFeedView)}}">
+        <a class="profile-media-tab profile-feed-filter-link {{$selectedMedia === 'image' ? 'active' : ''}}" href="{{$profileFilterUrl('image', $accessFilter, $profileFeedView)}}">
             <span>Fotos</span>
             <strong>({{short_number($profileFeedCounts['image'])}})</strong>
         </a>
-        <a class="profile-media-tab {{$selectedMedia === 'video' ? 'active' : ''}}" href="{{$profileFilterUrl('video', $accessFilter, $profileFeedView)}}">
+        <a class="profile-media-tab profile-feed-filter-link {{$selectedMedia === 'video' ? 'active' : ''}}" href="{{$profileFilterUrl('video', $accessFilter, $profileFeedView)}}">
             <span>Vídeos</span>
             <strong>({{short_number($profileFeedCounts['video'])}})</strong>
         </a>
@@ -43,17 +43,17 @@
     @if($activeFilter !== 'reels')
         <div class="profile-feed-toolbar">
             <nav class="profile-access-tabs" aria-label="Acesso às postagens">
-                <a class="profile-access-tab {{$accessFilter === 'all' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, 'all', $profileFeedView)}}">Ver tudo</a>
-                <a class="profile-access-tab {{$accessFilter === 'free' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, 'free', $profileFeedView)}}">Gratuito</a>
-                <a class="profile-access-tab {{$accessFilter === 'subscription' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, 'subscription', $profileFeedView)}}">Assinatura</a>
-                <a class="profile-access-tab {{$accessFilter === 'pack' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, 'pack', $profileFeedView)}}">Packs</a>
+                <a class="profile-access-tab profile-feed-filter-link {{$accessFilter === 'all' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, 'all', $profileFeedView)}}">Ver tudo</a>
+                <a class="profile-access-tab profile-feed-filter-link {{$accessFilter === 'free' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, 'free', $profileFeedView)}}">Gratuito</a>
+                <a class="profile-access-tab profile-feed-filter-link {{$accessFilter === 'subscription' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, 'subscription', $profileFeedView)}}">Assinatura</a>
+                <a class="profile-access-tab profile-feed-filter-link {{$accessFilter === 'pack' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, 'pack', $profileFeedView)}}">Packs</a>
             </nav>
 
             <div class="profile-view-tabs" aria-label="Visualização do feed">
-                <a class="profile-view-tab {{$profileFeedView === 'grid' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, $accessFilter, 'grid')}}" title="Visualização em grade" aria-label="Visualização em grade">
+                <a class="profile-view-tab profile-feed-filter-link {{$profileFeedView === 'grid' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, $accessFilter, 'grid')}}" title="Visualização em grade" aria-label="Visualização em grade">
                     @include('elements.icon',['icon'=>'grid-outline','centered'=>true])
                 </a>
-                <a class="profile-view-tab {{$profileFeedView === 'list' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, $accessFilter, 'list')}}" title="Visualização em lista" aria-label="Visualização em lista">
+                <a class="profile-view-tab profile-feed-filter-link {{$profileFeedView === 'list' ? 'active' : ''}}" href="{{$profileFilterUrl($selectedMedia, $accessFilter, 'list')}}" title="Visualização em lista" aria-label="Visualização em lista">
                     @include('elements.icon',['icon'=>'list-outline','centered'=>true])
                 </a>
             </div>

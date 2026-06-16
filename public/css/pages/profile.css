@@ -479,14 +479,14 @@
 .profile-media-tab::after{
     content: "";
     position: absolute;
-    right: 12px;
-    bottom: -1px;
-    left: 12px;
-    height: 2px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 3px;
     border-radius: 999px 999px 0 0;
     background: var(--primary);
     opacity: 0;
-    transform: scaleX(.55);
+    transform: scaleX(.7);
     transition: opacity .16s ease, transform .16s ease;
 }
 
@@ -549,8 +549,8 @@
 
 .profile-access-tab.active{
     color: #fff;
-    background: linear-gradient(135deg, var(--primary), #c91324);
-    box-shadow: 0 5px 14px rgba(220,32,50,.26);
+    background: var(--primary);
+    box-shadow: none;
 }
 
 .profile-view-tabs{
@@ -588,6 +588,17 @@
 
 .profile-view-tab:hover{
     transform: translateY(-1px);
+}
+
+.profile-feed-navigation,
+.profile-feed-content{
+    transition: opacity .16s ease;
+}
+
+.profile-feed-is-loading .profile-feed-navigation,
+.profile-feed-is-loading .profile-feed-content{
+    opacity: .48;
+    pointer-events: none;
 }
 
 /* Profile grid view */
