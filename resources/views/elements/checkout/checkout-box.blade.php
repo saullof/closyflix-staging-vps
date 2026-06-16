@@ -168,25 +168,22 @@
                             </div>
 
                             <div class="checkout-payment-box-section">
-                            <h6 class="font-weight-bolder">{{__('Payment summary')}}</h6>
+                            <h6 class="font-weight-bolder">Resumo do pagamento</h6>
                             <div class="subtotal row mb-1">
-                                <span class="col-sm left ">{{__('Subtotal')}}:</span>
+                                <span class="col-sm left">Subtotal:</span>
                                 <span class="subtotal-amount col-sm right text-right">
                                         <b>$0.00</b>
                                     </span>
                             </div>
-                            <div class="total-without-tax row mb-1">
-                                <span class="col-sm left ">{{__('Total excluding tax')}}:</span>
-                                <span class="total-without-tax-amount col-sm right text-right">
+                            <div class="discount row mb-1">
+                                <span class="col-sm left">Desconto:</span>
+                                <span class="discount-amount col-sm right text-right">
                                         <b>$0.00</b>
                                     </span>
                             </div>
-                            <div class="taxes row mb-1">
-                                <span class="col-sm left ">{{__('Taxes')}}</span>
-                            </div>
-                            <div class="taxes-details mb-1"></div>
+                            <div class="taxes-details d-none"></div>
                             <div class="total row">
-                                <span class="col-sm left ">{{__('Total')}}:</span>
+                                <span class="col-sm left">Total:</span>
                                 <span class="total-amount col-sm right text-right">
                                         <b>$0.00</b>
                                     </span>
@@ -222,11 +219,11 @@
                                 @if(getSetting('payments.stripe_secret_key') && getSetting('payments.stripe_public_key') && !getSetting('payments.stripe_checkout_disabled'))
                                     <div class="p-1 col-6 col-md-3 col-lg-3 col-md-3 stripe-payment-method" >
                                         <div class="radio mx-auto stripe-payment-provider checkout-payment-provider d-flex align-items-center justify-content-center my-0" data-value="stripe">
-                                            <img src="{{asset('/img/logos/stripe.svg')}}">
+                                            <img src="https://closyflix.com/img/logos/stripe.svg" alt="{{__('Credit card')}}">
                                         </div>
                                     </div>
                                 @endif
-                                @if(getSetting('payments.stripe_pix_secret_key') && getSetting('payments.stripe_pix_public_key') && !getSetting('payments.stripe_pix_checkout_disabled') && strtoupper(config('app.site.currency_code')) === 'BRL')
+                                @if(getSetting('payments.stripe_pix_secret_key') && getSetting('payments.stripe_pix_public_key') && !getSetting('payments.stripe_pix_checkout_disabled') && strtoupper((string) (getSetting('payments.currency_code') ?: config('app.site.currency_code'))) === 'BRL')
                                     <div class="p-1 col-6 col-md-3 col-lg-3 col-md-3 stripe-pix-payment-method">
                                         <div class="radio mx-auto stripe-pix-payment-provider checkout-payment-provider d-flex align-items-center justify-content-center my-0" data-value="stripe_pix">
                                             <img src="{{asset('/img/logos/pix.png')}}">
@@ -355,8 +352,9 @@
                             </div>
                         </div>
                         <div class="payment-error error text-danger text-bold d-none mb-1">{{__('Please select your payment method')}}</div>
-                        <p class="text-muted mt-1 small mb-0"> {{__('Prefer to add funds? Visit your')}} <a  target="_blank" href="{{route('my.settings', ['type' => 'wallet', 'active' => 'deposit'])}}">{{__('Wallet page')}}</a>. </p>
-                        <p class="text-muted mt-1 small mb-0"> {{__('Click the continue button to pay securely and return once finished.')}}</p>
+                        <p class="text-muted mt-2 small mb-0">
+                            Após clicar no botão, você será direcionado para um gateway seguro de pagamento. Após concluir o processo de pagamento, você será redirecionado de volta para o site.
+                        </p>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary checkout-continue-btn">{{__('Continue')}}

@@ -8,8 +8,8 @@ function getCheckoutDataFromTrigger($trigger) {
     return {
         postId: $trigger.data('post-id'),
         recipientId: $trigger.data('recipient-id'),
-        amount: $trigger.data('amount'),
-        type: $trigger.data('type') || $trigger.val(),
+        amount: $trigger.attr('data-amount') || $trigger.data('amount'),
+        type: $trigger.attr('data-type') || $trigger.data('type') || $trigger.val(),
         username: $trigger.data('username'),
         firstName: $trigger.data('first-name'),
         lastName: $trigger.data('last-name'),
@@ -45,7 +45,13 @@ function selectFirstAvailablePaymentMethod() {
 
 function configureCheckoutFromTrigger(trigger) {
     const data = getCheckoutDataFromTrigger($(trigger));
-    const activeCoupon = checkout.paymentData.coupon || data.coupon || '';
+    const previousCoupon = {
+        code: checkout.paymentData.coupon || '',
+        discount: Number(checkout.paymentData.couponDiscount || 0),
+        discountType: checkout.paymentData.couponDiscountType || null,
+        paymentMethod: checkout.paymentData.couponPaymentMethod || 'all'
+    };
+    const activeCoupon = previousCoupon.code || data.coupon || '';
 
     checkout.initiatePaymentData(
         data.type,
@@ -65,8 +71,13 @@ function configureCheckoutFromTrigger(trigger) {
         activeCoupon
     );
 
+    if (activeCoupon && previousCoupon.code === activeCoupon && previousCoupon.discount > 0) {
+        checkout.paymentData.couponDiscount = previousCoupon.discount;
+        checkout.paymentData.couponDiscountType = previousCoupon.discountType;
+        checkout.paymentData.couponPaymentMethod = previousCoupon.paymentMethod;
+    }
+
     checkout.updateUserDetails(data.avatar, data.username, data.name);
-    checkout.fillCountrySelectOptions();
     checkout.prefillBillingDetails();
 
     let paymentTitle = '';
@@ -103,7 +114,7 @@ function configureCheckoutFromTrigger(trigger) {
         checkout.togglePaymentProviders(false, checkout.oneTimePaymentProcessorClasses);
         checkout.togglePaymentProvider(showCCBillProvider, '.ccbill-payment-method');
         checkout.togglePaymentProvider(showStripeProvider, '.stripe-payment-method');
-        checkout.togglePaymentProvider(showStripeProvider, '.stripe-pix-payment-method');
+        checkout.togglePaymentProvider($('.stripe-pix-payment-method').length > 0, '.stripe-pix-payment-method');
         checkout.togglePaymentProvider(showPaypalProvider, '.paypal-payment-method');
         checkout.togglePaymentProvider(showCreditProvider, '.credit-payment-method');
         checkout.togglePaymentProvider(verotelProvider, '.verotel-payment-method');
@@ -139,6 +150,7 @@ function configureCheckoutFromTrigger(trigger) {
     $('#payment-title').text(paymentTitle);
     $('.payment-body .payment-description').toggleClass('d-none', !paymentDescription).text(paymentDescription);
     $('#checkout-amount').val(data.amount);
+    checkout.renderBaseSummary();
 
     if (!data.firstName || !data.lastName || !data.billingAddress || !data.city || !data.state || !data.postcode || !data.country) {
         $('#billingInformation').collapse('show');
@@ -146,9 +158,12 @@ function configureCheckoutFromTrigger(trigger) {
         $('#billingInformation').collapse('hide');
     }
 
-    if (activeCoupon) {
+    if (activeCoupon && previousCoupon.discount <= 0) {
         $('#coupon-input').val(activeCoupon);
         checkout.applyCoupon();
+    } else {
+        checkout.applyCouponPaymentMethodRestriction(checkout.paymentData.couponPaymentMethod);
+        checkout.refreshCountryAndSummary();
     }
 
     selectFirstAvailablePaymentMethod();
@@ -224,6 +239,8 @@ var checkout = {
 
     // keep a reference to last quote request (abort on fast changes)
     _taxQuoteXhr: null,
+    _countriesXhr: null,
+    _countriesLoaded: false,
     _processing: false,
 
     oneTimePaymentProcessorClasses: [
@@ -634,7 +651,17 @@ var checkout = {
      * Then triggers BE quote once options exist
      */
     fillCountrySelectOptions: function () {
-        $.ajax({
+        if (checkout._countriesLoaded && $('.country-select option').length) {
+            checkout.selectCurrentCountry();
+            checkout.updatePaymentSummaryData();
+            return;
+        }
+
+        if (checkout._countriesXhr && checkout._countriesXhr.readyState !== 4) {
+            return;
+        }
+
+        checkout._countriesXhr = $.ajax({
             type: 'GET',
             url: app.baseUrl + '/countries',
             success: function (result) {
@@ -658,12 +685,70 @@ var checkout = {
                     });
 
                     checkout.initCountrySelectize();
+                    checkout._countriesLoaded = true;
 
                     // sync paymentData.country + update quote
                     checkout.updatePaymentSummaryData();
                 }
             }
         });
+    },
+
+    selectCurrentCountry: function () {
+        const $select = $('.country-select');
+        const country = checkout.paymentData.country;
+
+        if (!$select.length || !country) {
+            return;
+        }
+
+        const $option = $select.find('option').filter(function () {
+            return ($(this).text() || '').trim() === country;
+        }).first();
+
+        if ($option.length) {
+            $select.val($option.val());
+            if ($select[0] && $select[0].selectize) {
+                $select[0].selectize.setValue($option.val(), true);
+            }
+        }
+    },
+
+    refreshCountryAndSummary: function () {
+        checkout.renderBaseSummary();
+
+        if (checkout._countriesLoaded && $('.country-select option').length) {
+            checkout.selectCurrentCountry();
+            checkout.updatePaymentSummaryData();
+        } else {
+            checkout.fillCountrySelectOptions();
+        }
+    },
+
+    renderBaseSummary: function () {
+        const originalAmount = parseFloat(checkout.paymentData.amount || 0);
+        const baseAmount = checkout.getDiscountedBaseAmount();
+        const formattedAmount = baseAmount.toFixed(2);
+        const formattedOriginalAmount = originalAmount.toFixed(2);
+        const formattedDiscount = Math.max(0, originalAmount - baseAmount).toFixed(2);
+
+        checkout.paymentData.taxes = {
+            data: [],
+            subtotal: formattedAmount,
+            netSubtotal: formattedAmount,
+            total: formattedAmount,
+            taxesTotalAmount: "0.00"
+        };
+        checkout.paymentData.totalAmount = formattedAmount;
+
+        $('.taxes-details').empty();
+        $('.subtotal-amount b').html(getWebsiteFormattedAmount(formattedOriginalAmount));
+        $('.discount-amount b').html(
+            parseFloat(formattedDiscount) > 0
+                ? '-' + getWebsiteFormattedAmount(formattedDiscount)
+                : getWebsiteFormattedAmount(formattedDiscount)
+        );
+        $('.total-amount b').html(getWebsiteFormattedAmount(formattedAmount));
     },
 
     /**
@@ -681,16 +766,10 @@ var checkout = {
 
         // Base amount: tips/deposits use input; for other types BE overrides internally
         const baseAmount = checkout.getDiscountedBaseAmount();
+        checkout.renderBaseSummary();
 
         // If no country selected, clear taxes UI and show base totals only
         if (!countryName) {
-            checkout.paymentData.taxes = { data: [], subtotal: baseAmount.toFixed(2), total: baseAmount.toFixed(2), taxesTotalAmount: "0.00" };
-            checkout.paymentData.totalAmount = baseAmount.toFixed(2);
-
-            $('.taxes-details').empty();
-            $('.subtotal-amount b').html(getWebsiteFormattedAmount(baseAmount.toFixed(2)));
-            $('.total-amount b').html(getWebsiteFormattedAmount(baseAmount.toFixed(2)));
-
             $('.available-credit').html('(' + getWebsiteFormattedAmount(checkout.paymentData.availableCredit) + ')');
             if (parseFloat(checkout.paymentData.availableCredit || 0) < baseAmount) {
                 $(".credit-payment-provider").css("pointer-events", "none");
@@ -724,7 +803,7 @@ var checkout = {
                 if (!quote) return;
 
                 checkout.paymentData.taxes = quote;
-                checkout.paymentData.totalAmount = baseAmount;
+                checkout.paymentData.totalAmount = parseFloat(quote.total || baseAmount).toFixed(2);
 
                 $('.taxes-details').empty();
 
@@ -738,8 +817,15 @@ var checkout = {
                     $('.taxes-details').append(item);
                 });
 
-                $('.subtotal-amount b').html(getWebsiteFormattedAmount(quote.subtotal));
-                $('.total-without-tax-amount b').html(getWebsiteFormattedAmount(quote.netSubtotal));
+                const originalAmount = parseFloat(checkout.paymentData.amount || 0);
+                const discountedAmount = checkout.getDiscountedBaseAmount();
+                $('.subtotal-amount b').html(getWebsiteFormattedAmount(originalAmount.toFixed(2)));
+                const discountAmount = Math.max(0, originalAmount - discountedAmount).toFixed(2);
+                $('.discount-amount b').html(
+                    parseFloat(discountAmount) > 0
+                        ? '-' + getWebsiteFormattedAmount(discountAmount)
+                        : getWebsiteFormattedAmount(discountAmount)
+                );
                 $('.total-amount b').html(getWebsiteFormattedAmount(quote.total));
 
                 // Credit gating uses total

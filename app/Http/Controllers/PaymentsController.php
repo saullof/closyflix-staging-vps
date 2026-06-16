@@ -114,7 +114,10 @@ class PaymentsController extends Controller
                 if ($redirectLink == null) {
                     $transaction['status'] = Transaction::DECLINED_STATUS;
                     $transaction->save();
-                    return $this->paymentHandler->redirectByTransaction($transaction, $errorMessage = __('Failed generating stripe session'));
+                    return $this->paymentHandler->redirectByTransaction(
+                        $transaction,
+                        $this->paymentHandler->getLastStripeErrorMessage() ?: __('Failed generating stripe session')
+                    );
                 }
             }
 

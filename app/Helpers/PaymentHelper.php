@@ -55,6 +55,8 @@ use Yabacon\Paystack\Exception\ApiException;
 
 class PaymentHelper
 {
+    private ?string $lastStripeErrorMessage = null;
+
     public function generatePaypalSubscriptionByTransaction(Transaction $transaction): ?string
     {
         //initiate the recurring payment, send back the link for the user to approve it.
@@ -683,6 +685,7 @@ class PaymentHelper
     public function generateStripeSessionByTransaction(Transaction $transaction)
     {
         $redirectLink = null;
+        $this->lastStripeErrorMessage = null;
         $transactionType = $transaction->type;
         if ($transactionType == null || empty($transactionType)) {
             return null;
@@ -697,7 +700,7 @@ class PaymentHelper
             \Stripe\Stripe::setApiKey($stripeSecretKey);
             $isSubscriptionPayment = $this->isSubscriptionPayment($transactionType);
             $isStripePixProvider = $transaction->payment_provider === Transaction::STRIPE_PIX_PROVIDER;
-            $stripeCurrency = strtolower(config('app.site.currency_code'));
+            $stripeCurrency = strtolower((string) (getSetting('payments.currency_code') ?: config('app.site.currency_code')));
 
             if ($isStripePixProvider && $stripeCurrency !== 'brl') {
                 throw new \Exception('Stripe PIX is only available for BRL transactions.');
@@ -712,7 +715,7 @@ class PaymentHelper
                 // generate stripe price
                 $price = \Stripe\Price::create([
                     'product' => $product->id,
-                    'unit_amount' => $transaction->amount * 100,
+                    'unit_amount' => (int) round($transaction->amount * 100),
                     'currency' => $stripeCurrency,
                     'recurring' => [
                         'interval' => 'month',
@@ -733,7 +736,7 @@ class PaymentHelper
                             'name' => $this->getPaymentDescriptionByTransaction($transaction),
                             'description' => $this->getPaymentDescriptionByTransaction($transaction),
                         ],
-                        'unit_amount' => $transaction->amount * 100,
+                        'unit_amount' => (int) round($transaction->amount * 100),
                     ],
                     'quantity' => 1,
                 ];
@@ -807,10 +810,39 @@ class PaymentHelper
             $transaction['stripe_session_id'] = $session->id;
             $redirectLink = $session->url;
         } catch (\Exception $e) {
+            $this->lastStripeErrorMessage = $this->getSafeStripeErrorMessage($e);
             Log::channel('payments')->error('Failed generating stripe session for transaction: '.$transaction->id.' error: '.$e->getMessage());
         }
 
         return $redirectLink;
+    }
+
+    public function getLastStripeErrorMessage(): ?string
+    {
+        return $this->lastStripeErrorMessage;
+    }
+
+    private function getSafeStripeErrorMessage(\Exception $exception): string
+    {
+        $message = strtolower($exception->getMessage());
+
+        if (str_contains($message, 'api key') || str_contains($message, 'authentication')) {
+            return 'As credenciais da conta Stripe selecionada são inválidas ou estão incompletas.';
+        }
+
+        if (str_contains($message, 'amount') && (str_contains($message, 'minimum') || str_contains($message, 'small'))) {
+            return 'O valor deste pagamento está abaixo do mínimo aceito pelo Stripe.';
+        }
+
+        if (str_contains($message, 'currency') || str_contains($message, 'brl')) {
+            return 'A moeda configurada não é aceita para este método de pagamento.';
+        }
+
+        if (str_contains($message, 'pix')) {
+            return 'O PIX não está habilitado ou configurado corretamente nesta conta Stripe.';
+        }
+
+        return 'Não foi possível criar a cobrança no Stripe. Verifique as credenciais e os métodos habilitados na conta.';
     }
 
     private function resolveStripeSecretKey(?string $paymentProvider = null): ?string
