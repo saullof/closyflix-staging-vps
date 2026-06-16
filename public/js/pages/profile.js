@@ -7,6 +7,8 @@
 /* global showDisabledPaywallWarning, launchToast, trans, Swiper */
 
 $(function () {
+    Profile.initFeedFilters();
+
     if(postsFilter === 'reels') {
         Profile.initBioHyperlinks();
         Post.setActivePage('profile');
@@ -17,19 +19,7 @@ $(function () {
         return;
     }
 
-    if(typeof paginatorConfig !== 'undefined'){
-        if((paginatorConfig.total > 0 && paginatorConfig.total > paginatorConfig.per_page) && paginatorConfig.hasMore) {
-            PostsPaginator.initScrollLoad();
-        }
-        PostsPaginator.init(paginatorConfig.next_page_url, '.posts-wrapper');
-    }
-    else{
-        // eslint-disable-next-line no-console
-        console.error('Pagination failed to initialize.');
-    }
-
-    PostsPaginator.initPostsGalleries(initialPostIDs);
-    PostsPaginator.initPostsHyperLinks();
+    Profile.initPostsFeed();
     Profile.initBioHyperlinks();
     // Animate polls
     Post.animatePollResults();
@@ -126,6 +116,138 @@ window.onunload = function(){
 
 // eslint-disable-next-line no-unused-vars
 var Profile = {
+    isLoadingFeed: false,
+
+    initFeedFilters: function () {
+        $(document)
+            .off('click.profileFeedFilters', '.profile-feed-filter-link')
+            .on('click.profileFeedFilters', '.profile-feed-filter-link', function (event) {
+                var href = $(this).attr('href');
+
+                if(!Profile.canLoadFeedPartially(href)){
+                    return;
+                }
+
+                event.preventDefault();
+                Profile.loadFeedPartial(href, true);
+            });
+
+        $(window)
+            .off('popstate.profileFeedFilters')
+            .on('popstate.profileFeedFilters', function () {
+                if(Profile.canLoadFeedPartially(window.location.href)){
+                    Profile.loadFeedPartial(window.location.href, false);
+                    return;
+                }
+
+                if(new URL(window.location.href).searchParams.get('filter') === 'reels'){
+                    window.location.reload();
+                }
+            });
+    },
+
+    canLoadFeedPartially: function (href) {
+        if(!href || Profile.isLoadingFeed){
+            return false;
+        }
+
+        var url;
+        try {
+            url = new URL(href, window.location.href);
+        } catch (e) {
+            return false;
+        }
+
+        if(url.origin !== window.location.origin || url.pathname !== window.location.pathname){
+            return false;
+        }
+
+        return url.searchParams.get('filter') !== 'reels';
+    },
+
+    loadFeedPartial: function (href, pushState) {
+        var url = new URL(href, window.location.href);
+        url.searchParams.set('partial', 'profile-feed');
+        Profile.isLoadingFeed = true;
+        $('.profile-feed-navigation, .profile-feed-content').parent().addClass('profile-feed-is-loading');
+
+        $.ajax({
+            url: url.toString(),
+            type: 'GET',
+            dataType: 'json',
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            success: function (response) {
+                if(!response || !response.success || !response.html){
+                    window.location.href = href;
+                    return;
+                }
+                Profile.replaceFeed(response, href, pushState);
+            },
+            error: function () {
+                window.location.href = href;
+            },
+            complete: function () {
+                Profile.isLoadingFeed = false;
+                $('.profile-feed-is-loading').removeClass('profile-feed-is-loading');
+            }
+        });
+    },
+
+    replaceFeed: function (response, href, pushState) {
+        var $html = $('<div></div>').html(response.html);
+        var $navigation = $html.find('.profile-feed-navigation');
+        var $content = $html.find('.profile-feed-content');
+
+        if(!$navigation.length || !$content.length){
+            window.location.href = href;
+            return;
+        }
+
+        $('.profile-feed-navigation').replaceWith($navigation);
+        $('.profile-feed-content').replaceWith($content);
+
+        window.paginatorConfig = response.paginatorConfig || {};
+        window.initialPostIDs = response.initialPostIDs || [];
+        window.postsFilter = response.postsFilter || false;
+        paginatorConfig = window.paginatorConfig;
+        initialPostIDs = window.initialPostIDs;
+        postsFilter = window.postsFilter;
+
+        if(pushState && window.history && window.history.pushState){
+            window.history.pushState({profileFeed: true}, '', response.url || href);
+        }
+
+        Profile.initPostsFeed();
+        Post.initPostsMediaModule();
+        Post.animatePollResults();
+        initTooltips();
+        if(app.feedDisableRightClickOnMedia === true){
+            Post.disablePostsRightClick();
+        }
+
+        var $nav = $('.profile-feed-navigation');
+        if($nav.length && $(window).scrollTop() > $nav.offset().top - 20){
+            $('html, body').animate({scrollTop: $nav.offset().top - 10}, 160);
+        }
+    },
+
+    initPostsFeed: function () {
+        if(typeof paginatorConfig !== 'undefined'){
+            PostsPaginator.unbindPaginator();
+            PostsPaginator.init(paginatorConfig.next_page_url, '.posts-wrapper');
+            if((paginatorConfig.total > 0 && paginatorConfig.total > paginatorConfig.per_page) && paginatorConfig.hasMore) {
+                PostsPaginator.initScrollLoad();
+            }
+        }
+        else{
+            // eslint-disable-next-line no-console
+            console.error('Pagination failed to initialize.');
+        }
+
+        PostsPaginator.initPostsGalleries(initialPostIDs || []);
+        PostsPaginator.initPostsHyperLinks();
+        PostsPaginator.initDescriptionTogglers();
+    },
 
     /**
      * Toggles profile's description
