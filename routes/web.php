@@ -34,6 +34,15 @@ Route::get('/age-check/callback', ['uses' => 'AgeCheckController@callback', 'as'
 // Language switcher route
 Route::get('language/{locale}', ['uses' => 'GenericController@setLanguage', 'as'   => 'language']);
 
+// Public checkout helpers
+Route::post('/payment/taxes/quote', ['uses' => 'PaymentsController@quoteTaxes', 'as' => 'payment.quoteTaxes.public']);
+Route::group(['prefix' => 'guest-checkout', 'as' => 'guest.checkout.'], function () {
+    Route::post('/initiate/validate', ['uses' => 'GuestCheckoutController@validateCheckout', 'as' => 'validate']);
+    Route::post('/initiate', ['uses' => 'GuestCheckoutController@initiate', 'as' => 'initiate']);
+    Route::get('/stripe/status', ['uses' => 'GuestCheckoutController@stripeStatus', 'as' => 'status']);
+    Route::get('/complete/{token}', ['uses' => 'GuestCheckoutController@complete', 'as' => 'complete']);
+});
+
 /* Auth Routes + Verify password */
 Auth::routes(['verify'=>true]);
 Route::get('email/verify', ['uses' => 'GenericController@userVerifyEmail', 'as' => 'verification.notice']);

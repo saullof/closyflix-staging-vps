@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\AuthServiceProvider;
 use App\Providers\RouteServiceProvider;
+use App\Services\GuestCheckoutService;
 use App\Rules\AllowedEmailDomains;
 use App\Rules\IsEmailDelivrable;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -107,6 +108,12 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
+        $transaction = app(GuestCheckoutService::class)->claimPendingCheckoutFromSession($user);
+        if ($transaction) {
+            return redirect(route('profile', ['username' => $transaction->receiver->username]))
+                ->with('success', __('You can now access this user profile.'));
+        }
+
         if ($request->ajax()) {
             return response()->json(['success' => true, 'message' => 'Register successful.']);
         }

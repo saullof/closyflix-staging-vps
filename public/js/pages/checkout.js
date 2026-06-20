@@ -352,7 +352,7 @@ var checkout = {
         $.ajax({
             type: 'POST',
             data: $('#pp-buyItem').serialize(),
-            url: app.baseUrl + '/payment/initiate/validate',
+            url: $('#pp-buyItem').data('validation-url') || (app.baseUrl + '/payment/initiate/validate'),
             success: function () {
                 callback();
             },
