@@ -17,6 +17,7 @@ use App\Providers\PostsHelperServiceProvider;
 use App\Providers\RazorPayServiceProvider;
 use App\Providers\VerotelServiceProvider;
 use App\Providers\WithdrawalsServiceProvider;
+use App\Services\GuestCheckoutService;
 use App\Model\User;
 use Carbon\Carbon;
 use DateTime;
@@ -400,7 +401,10 @@ class PaymentsController extends Controller
                 // don't update oxxo transactions here
                 $oxxoTransaction = Transaction::query()->where(['stripe_session_id' => $sessionId, 'payment_provider' => Transaction::OXXO_PROVIDER])->first();
                 if(!$oxxoTransaction) {
-                    $this->paymentHandler->updateTransactionByStripeSessionId($sessionId);
+                    $transaction = $this->paymentHandler->updateTransactionByStripeSessionId($sessionId);
+                    if (!$transaction) {
+                        app(GuestCheckoutService::class)->syncFromStripeSessionId($sessionId);
+                    }
                 }
             }
             // Occurs whenever a customer's subscription ends.
@@ -459,7 +463,10 @@ class PaymentsController extends Controller
                 }
             // handles oxxo (or other stripe payment providers) related hooks
             } elseif(($event->type === 'checkout.session.async_payment_succeeded' || $event->type === 'checkout.session.async_payment_failed') && $eventObjectId != null) {
-                $this->paymentHandler->updateTransactionByStripeSessionId($eventObjectId);
+                $transaction = $this->paymentHandler->updateTransactionByStripeSessionId($eventObjectId);
+                if (!$transaction) {
+                    app(GuestCheckoutService::class)->syncFromStripeSessionId($eventObjectId);
+                }
             }
         } catch (\Exception $exception) {
             Log::channel('payments')->error($exception->getMessage());

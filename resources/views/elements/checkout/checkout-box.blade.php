@@ -2,6 +2,8 @@
     $isDark = Cookie::get('app_theme') == 'dark' || (!Cookie::get('app_theme') && getSetting('site.default_user_theme') == 'dark');
     $checkoutCouponCode = isset($coupon) ? $coupon?->coupon_code : '';
     $inlineCheckout = $inlineCheckout ?? false;
+    $checkoutFormAction = Auth::check() ? route('payment.initiatePayment') : route('guest.checkout.initiate');
+    $checkoutValidationUrl = Auth::check() ? route('payment.initiatePaymentValidator') : route('guest.checkout.validate');
 @endphp
 
 <style>
@@ -14,7 +16,7 @@
     <div class="col-lg-6 mx-auto">
         {{-- Paypal and stripe actual buttons --}}
         <div class="paymentOption paymentPP d-none">
-            <form id="pp-buyItem" method="post" action="{{route('payment.initiatePayment')}}">
+            <form id="pp-buyItem" method="post" action="{{ $checkoutFormAction }}" data-validation-url="{{ $checkoutValidationUrl }}">
                 @csrf
                 <input type="hidden" name="amount" id="payment-deposit-amount" value="">
                 <input type="hidden" name="transaction_type" id="payment-type" value="">
@@ -234,7 +236,7 @@
                                         </div>
                                     </div>
                                 @endif
-                                @if(config('paypal.client_id') && config('paypal.secret') && !getSetting('payments.paypal_checkout_disabled'))
+                                @if(Auth::check() && config('paypal.client_id') && config('paypal.secret') && !getSetting('payments.paypal_checkout_disabled'))
                                     <div class="p-1 col-6 col-md-3 col-lg-3 col-md-3 paypal-payment-method">
                                         <div class="radio mx-auto paypal-payment-provider checkout-payment-provider d-flex align-items-center justify-content-center my-0" data-value="paypal">
                                             <img src="{{asset('/img/logos/paypal.svg')}}">
@@ -315,7 +317,7 @@
                                         </div>
                                     </div>
                                 @endif
-                                @if(getSetting('payments.stripe_secret_key') && getSetting('payments.stripe_public_key') && !getSetting('payments.stripe_checkout_disabled') && getSetting('payments.stripe_oxxo_provider_enabled'))
+                                @if(Auth::check() && getSetting('payments.stripe_secret_key') && getSetting('payments.stripe_public_key') && !getSetting('payments.stripe_checkout_disabled') && getSetting('payments.stripe_oxxo_provider_enabled'))
                                     <div class="p-1 col-6 col-md-3 col-lg-3 col-md-3 d-none oxxo-payment-method">
                                         <div class="radio mx-auto oxxo-payment-provider checkout-payment-provider d-flex align-items-center justify-content-center my-0" data-value="oxxo">
                                             <img src="{{asset('/img/logos/oxxo.svg')}}">
@@ -343,19 +345,23 @@
                                         </div>
                                     </div>
                                 @endif
-                                <div class="credit-payment-method p-1 col-6 col-md-3 col-lg-3 col-md-3" {{--data-toggle="tooltip"--}} {!! !Auth::check() || Auth::user()->wallet->total <= 0 ? 'data-toggle="tooltip" data-placement="right"' : '' !!} title="{{__('You can use the wallet deposit page to add credit.')}}">
-                                    <div class="radio mx-auto credit-payment-provider checkout-payment-provider d-flex align-items-center justify-content-center my-0" data-value="credit">
-                                        <div class="credit-provider-text">
-                                            <b>{{__("Credit")}}</b>
-                                            <div class="available-credit">({{\App\Providers\SettingsServiceProvider::getWebsiteFormattedAmount('0')}})</div>
+                                @if(Auth::check())
+                                    <div class="credit-payment-method p-1 col-6 col-md-3 col-lg-3 col-md-3" {{--data-toggle="tooltip"--}} {!! Auth::user()->wallet->total <= 0 ? 'data-toggle="tooltip" data-placement="right"' : '' !!} title="{{__('You can use the wallet deposit page to add credit.')}}">
+                                        <div class="radio mx-auto credit-payment-provider checkout-payment-provider d-flex align-items-center justify-content-center my-0" data-value="credit">
+                                            <div class="credit-provider-text">
+                                                <b>{{__("Credit")}}</b>
+                                                <div class="available-credit">({{\App\Providers\SettingsServiceProvider::getWebsiteFormattedAmount('0')}})</div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                             </div>
                         </div>
                         <div class="payment-error error text-danger text-bold d-none mb-1">{{__('Please select your payment method')}}</div>
-                        <p class="text-muted mt-1 small mb-0"> {{__('Prefer to add funds? Visit your')}} <a  target="_blank" href="{{route('my.settings', ['type' => 'wallet', 'active' => 'deposit'])}}">{{__('Wallet page')}}</a>. </p>
+                        @if(Auth::check())
+                            <p class="text-muted mt-1 small mb-0"> {{__('Prefer to add funds? Visit your')}} <a  target="_blank" href="{{route('my.settings', ['type' => 'wallet', 'active' => 'deposit'])}}">{{__('Wallet page')}}</a>. </p>
+                        @endif
                         <p class="text-muted mt-1 small mb-0"> {{__('Click the continue button to pay securely and return once finished.')}}</p>
                     </div>
                     <div class="modal-footer">

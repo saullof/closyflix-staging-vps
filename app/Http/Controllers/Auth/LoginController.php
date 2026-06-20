@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\AuthServiceProvider;
 use App\Providers\RouteServiceProvider;
 use App\Model\User;
+use App\Services\GuestCheckoutService;
 use Carbon\Carbon;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -72,6 +73,12 @@ class LoginController extends Controller
             $user->save();
         }
 
+        $transaction = app(GuestCheckoutService::class)->claimPendingCheckoutFromSession($user);
+        if ($transaction) {
+            return redirect(route('profile', ['username' => $transaction->receiver->username]))
+                ->with('success', __('You can now access this user profile.'));
+        }
+
         if ($request->ajax()) {
             return response()->json(['success' => true, 'message' => 'Logged in successfully.']);
         }
@@ -121,6 +128,12 @@ class LoginController extends Controller
         }
 
         Auth::login($authUser, true);
+        $transaction = app(GuestCheckoutService::class)->claimPendingCheckoutFromSession($authUser);
+        if ($transaction) {
+            return redirect(route('profile', ['username' => $transaction->receiver->username]))
+                ->with('success', __('You can now access this user profile.'));
+        }
+
         $redirectTo = route('feed');
         if (Session::has('lastProfileUrl')) {
             $redirectTo = Session::get('lastProfileUrl');

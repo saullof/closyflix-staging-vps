@@ -43,6 +43,7 @@ class Kernel extends HttpKernel
             Middleware\LocaleSetter::class,
             Middleware\JavascriptVariables::class,
             Middleware\UpdateLastActive::class,
+            Middleware\ClaimGuestCheckout::class,
         ],
 
         'api' => [
